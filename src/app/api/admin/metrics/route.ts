@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { isValidLeadDoc, isValidProjectDoc } from "@/lib/admin/filters";
 import { requireAdminSession } from "@/lib/auth/admin-session";
 import { adminDb } from "@/lib/firebase/admin";
 
@@ -9,13 +10,16 @@ export async function GET() {
   if (!db) return NextResponse.json({ error: "Firestore não configurado" }, { status: 500 });
 
   const [projectsSnap, leadsSnap] = await Promise.all([
-    db.collection("projects").count().get(),
-    db.collection("leads").count().get(),
+    db.collection("projects").get(),
+    db.collection("leads").get(),
   ]);
 
   return NextResponse.json({
-    projects: projectsSnap.data().count ?? 0,
-    leads: leadsSnap.data().count ?? 0,
+    projects: projectsSnap.docs.filter((d) =>
+      isValidProjectDoc(d.data() as Record<string, unknown>),
+    ).length,
+    leads: leadsSnap.docs.filter((d) =>
+      isValidLeadDoc(d.data() as Record<string, unknown>),
+    ).length,
   });
 }
-

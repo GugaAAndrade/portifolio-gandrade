@@ -2,6 +2,7 @@ import { FolderKanban, Inbox } from "lucide-react";
 import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { isValidLeadDoc, isValidProjectDoc } from "@/lib/admin/filters";
 import { requireAdminSession } from "@/lib/auth/admin-session";
 import { adminDb } from "@/lib/firebase/admin";
 
@@ -10,13 +11,19 @@ export default async function AdminDashboardPage() {
   const db = adminDb();
   const [projects, leads] = db
     ? await Promise.all([
-        db.collection("projects").count().get(),
-        db.collection("leads").count().get(),
+        db.collection("projects").get(),
+        db.collection("leads").get(),
       ])
     : [null, null];
 
-  const projectsCount = projects?.data().count ?? 0;
-  const leadsCount = leads?.data().count ?? 0;
+  const projectsCount =
+    projects?.docs.filter((d) =>
+      isValidProjectDoc(d.data() as Record<string, unknown>),
+    ).length ?? 0;
+  const leadsCount =
+    leads?.docs.filter((d) =>
+      isValidLeadDoc(d.data() as Record<string, unknown>),
+    ).length ?? 0;
 
   return (
     <div>
@@ -52,4 +59,3 @@ export default async function AdminDashboardPage() {
     </div>
   );
 }
-

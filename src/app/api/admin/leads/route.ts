@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { isValidLeadDoc } from "@/lib/admin/filters";
 import { requireAdminSession } from "@/lib/auth/admin-session";
 import { adminDb } from "@/lib/firebase/admin";
 
@@ -10,7 +11,8 @@ export async function GET() {
 
   const snap = await db.collection("leads").orderBy("createdAt", "desc").limit(200).get();
   return NextResponse.json(
-    snap.docs.map((d) => ({ id: d.id, ...d.data() })),
+    snap.docs
+      .map((d) => ({ id: d.id, ...d.data() }))
+      .filter((row) => isValidLeadDoc(row as Record<string, unknown>)),
   );
 }
-

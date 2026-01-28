@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 
+import { isValidProjectDoc } from "@/lib/admin/filters";
 import { requireAdminSession } from "@/lib/auth/admin-session";
 import { adminDb } from "@/lib/firebase/admin";
 import { projectSchema } from "@/lib/schemas";
@@ -11,7 +12,9 @@ export async function GET() {
 
   const snap = await db.collection("projects").orderBy("createdAt", "desc").get();
   return NextResponse.json(
-    snap.docs.map((d) => ({ id: d.id, ...d.data() })),
+    snap.docs
+      .map((d) => ({ id: d.id, ...d.data() }))
+      .filter((row) => isValidProjectDoc(row as Record<string, unknown>)),
   );
 }
 
@@ -35,4 +38,3 @@ export async function POST(req: Request) {
   const doc = await ref.get();
   return NextResponse.json({ id: doc.id, ...doc.data() }, { status: 201 });
 }
-
