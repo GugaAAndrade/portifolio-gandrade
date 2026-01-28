@@ -1,6 +1,6 @@
 "use client";
 
-import { FolderKanban, Inbox, LayoutDashboard, LogOut } from "lucide-react";
+import { FolderKanban, Home, Inbox, LayoutDashboard, LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
@@ -21,6 +21,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     await fetch("/api/auth/logout", { method: "POST" });
     router.push("/admin/login");
     router.refresh();
+  };
+
+  const goHome = () => {
+    router.push("/");
   };
 
   return (
@@ -52,7 +56,16 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 );
               })}
             </nav>
-            <div className="mt-4 border-t border-border/50 pt-4">
+            <div className="mt-4 flex flex-col gap-2 border-t border-border/50 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full justify-start"
+                onClick={goHome}
+              >
+                <Home className="mr-2 size-4" />
+                Voltar ao site
+              </Button>
               <Button
                 type="button"
                 variant="outline"
@@ -60,7 +73,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                 onClick={logout}
               >
                 <LogOut className="mr-2 size-4" />
-                Sair
+                Logout
               </Button>
             </div>
           </div>
@@ -70,4 +83,3 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
     </div>
   );
 }
-
