@@ -26,7 +26,7 @@ const buttonVariants = cva(
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:opacity-90",
         premium:
-          "text-primary-foreground shadow-sm bg-gradient-to-r from-[hsl(var(--brand-from))] to-[hsl(var(--brand-to))] hover:opacity-95",
+          "text-primary-foreground dark:text-white shadow-sm bg-[hsl(var(--brand-to))] hover:opacity-90 active:opacity-85",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -61,4 +61,3 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   },
 );
 Button.displayName = "Button";
-

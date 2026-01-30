@@ -11,7 +11,7 @@ const badgeVariants = cva(
         default: "",
         secondary: "bg-secondary text-secondary-foreground border-transparent",
         premium:
-          "border-transparent bg-gradient-to-r from-[hsl(var(--brand-from))] to-[hsl(var(--brand-to))] text-primary-foreground",
+          "border-transparent bg-[hsl(var(--brand-to))] text-primary-foreground dark:text-white",
         muted: "bg-muted text-muted-foreground border-transparent",
       },
     },
@@ -28,4 +28,3 @@ function Badge({ className, variant, ...props }: BadgeProps) {
 }
 
 export { Badge, badgeVariants };
-

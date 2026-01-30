@@ -65,7 +65,7 @@ export default function AdminLoginForm() {
       </div>
 
       <div className="flex items-start gap-3">
-        <span className="inline-flex size-11 items-center justify-center rounded-[calc(var(--radius)-6px)] bg-gradient-to-r from-[hsl(var(--brand-from))] to-[hsl(var(--brand-to))] text-primary-foreground shadow-[0_10px_30px_-16px_rgba(0,0,0,0.7)]">
+        <span className="inline-flex size-11 items-center justify-center rounded-[calc(var(--radius)-6px)] bg-[hsl(var(--brand-to))] text-white/90 shadow-[0_10px_30px_-16px_rgba(0,0,0,0.7)]">
           <Lock className="size-5" />
         </span>
         <div>
