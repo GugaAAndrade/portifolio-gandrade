@@ -4,6 +4,7 @@ import { FolderKanban, Home, Inbox, LayoutDashboard, LogOut } from "lucide-react
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -32,9 +33,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-10 md:grid-cols-12">
         <aside className="md:col-span-3">
           <div className="sticky top-20 rounded-[var(--radius)] border border-border/60 bg-card p-4">
-            <p className="px-2 pb-2 text-sm font-semibold tracking-tight">
-              Admin
-            </p>
+            <div className="flex items-center justify-between px-2 pb-2">
+              <p className="text-sm font-semibold tracking-tight">Admin</p>
+              <ThemeToggle />
+            </div>
             <nav className="grid gap-1">
               {items.map((it) => {
                 const active = pathname === it.href;
