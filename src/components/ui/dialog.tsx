@@ -37,7 +37,8 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-1/2 top-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4",
+        "fixed left-1/2 top-6 z-50 grid w-[calc(100%-2rem)] max-w-lg -translate-x-1/2 gap-4",
+        "max-h-[85vh] overflow-y-auto overscroll-contain sm:top-1/2 sm:-translate-y-1/2",
         "rounded-[var(--radius)] border border-border/60 bg-background p-6 shadow-[0_24px_120px_-70px_rgba(0,0,0,0.75)]",
         "data-[state=open]:animate-in data-[state=closed]:animate-out",
         "data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
@@ -108,4 +109,3 @@ export {
     Dialog, DialogClose,
     DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger
 };
-
