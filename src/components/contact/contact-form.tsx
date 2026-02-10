@@ -49,7 +49,7 @@ export function ContactForm() {
   const isSubmitting = form.formState.isSubmitting;
 
   return (
-    <div className="rounded-[var(--radius)] border border-border/60 bg-card p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)]">
+    <div className="rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-card to-card/70 p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] backdrop-blur-sm">
       <h2 className="text-lg font-semibold tracking-tight">
         Vamos falar do seu projeto
       </h2>
@@ -151,4 +151,3 @@ export function ContactForm() {
     </div>
   );
 }
-

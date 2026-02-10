@@ -1,9 +1,9 @@
 import { getProjects } from "@/lib/db/projects";
+import { getSiteUrl } from "@/lib/seo";
 import type { MetadataRoute } from "next";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base =
-    process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ?? "https://example.com";
+  const base = getSiteUrl();
 
   const projects = await getProjects();
 
@@ -17,4 +17,3 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })),
   ];
 }
-

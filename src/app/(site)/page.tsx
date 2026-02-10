@@ -1,4 +1,5 @@
 import { ArrowRight, Check, Sparkles } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
 
 import { ProjectCard } from "@/components/projects/project-card";
@@ -7,12 +8,67 @@ import { Reveal, Stagger, StaggerItem } from "@/components/site/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getFeaturedProjects } from "@/lib/db/projects";
+import { getSiteUrl } from "@/lib/seo";
+
+export const metadata: Metadata = {
+  title: "Desenvolvimento premium de sites e sistemas",
+  description:
+    "Criação de sites, landing pages e sistemas sob medida com foco em conversão, credibilidade e crescimento do negócio.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Gustavo Andrade — Desenvolvimento premium de sites e sistemas",
+    description:
+      "Sites e sistemas para fortalecer sua marca e gerar mais oportunidades de negócio.",
+    url: "/",
+    type: "website",
+    images: [{ url: "/icon", alt: "Gustavo Andrade — Portfólio" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Gustavo Andrade — Desenvolvimento premium",
+    description:
+      "Sites e sistemas para fortalecer sua marca e gerar mais oportunidades.",
+    images: ["/icon"],
+  },
+};
 
 export default async function HomePage() {
   const featured = await getFeaturedProjects();
+  const siteUrl = getSiteUrl();
+  const websiteJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: "Gustavo Andrade",
+    url: siteUrl,
+    potentialAction: {
+      "@type": "SearchAction",
+      target: `${siteUrl}/projects?search={search_term_string}`,
+      "query-input": "required name=search_term_string",
+    },
+  };
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "Gustavo Andrade",
+    url: siteUrl,
+    jobTitle: "Desenvolvedor de sites e sistemas",
+    sameAs: [
+      "https://www.linkedin.com/in/guga-andrade/",
+      "https://github.com/GugaAAndrade",
+    ],
+    knowsAbout: ["Desenvolvimento web", "Landing pages", "Sistemas sob medida"],
+  };
 
   return (
     <div className="relative">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10">
           <div className="absolute left-1/2 top-[-260px] h-[520px] w-[920px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[hsl(var(--brand-to)/0.22)] via-[hsl(var(--brand-from)/0.10)] to-transparent blur-3xl animate-[aurora_16s_linear_infinite]" />

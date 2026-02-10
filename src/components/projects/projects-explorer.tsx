@@ -37,7 +37,8 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
 
   return (
     <div className="mt-8">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="rounded-[calc(var(--radius)-4px)] border border-border/60 bg-background/75 p-4 backdrop-blur-sm md:p-5">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div className="relative w-full md:max-w-md">
           <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
           <Input
@@ -85,6 +86,7 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
           )}
         </div>
       </div>
+      </div>
 
       <div className="mt-8">
         <p className="text-sm text-muted-foreground">
@@ -115,4 +117,3 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
     </div>
   );
 }
-
