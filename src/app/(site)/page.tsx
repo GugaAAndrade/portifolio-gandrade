@@ -2,6 +2,8 @@ import { ArrowRight, Check, Sparkles } from "lucide-react";
 import Link from "next/link";
 
 import { ProjectCard } from "@/components/projects/project-card";
+import { AppleShowcase } from "@/components/site/apple-showcase";
+import { Reveal, Stagger, StaggerItem } from "@/components/site/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getFeaturedProjects } from "@/lib/db/projects";
@@ -10,35 +12,40 @@ export default async function HomePage() {
   const featured = await getFeaturedProjects();
 
   return (
-    <div>
+    <div className="relative">
       <section className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-[-260px] h-[520px] w-[920px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[hsl(var(--brand-to)/0.22)] via-[hsl(var(--brand-from)/0.10)] to-transparent blur-3xl" />
-          <div className="absolute bottom-[-240px] right-[-240px] h-[520px] w-[520px] rounded-full bg-[hsl(var(--brand-to)/0.16)] blur-3xl" />
+          <div className="absolute left-1/2 top-[-260px] h-[520px] w-[920px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[hsl(var(--brand-to)/0.22)] via-[hsl(var(--brand-from)/0.10)] to-transparent blur-3xl animate-[aurora_16s_linear_infinite]" />
+          <div className="absolute bottom-[-240px] right-[-240px] h-[520px] w-[520px] rounded-full bg-[hsl(var(--brand-to)/0.16)] blur-3xl animate-[float_8s_ease-in-out_infinite]" />
+          <div className="absolute left-[-180px] top-[240px] h-[380px] w-[380px] rounded-full bg-[hsl(var(--brand-from)/0.12)] blur-3xl animate-[float_9s_ease-in-out_infinite]" />
+          <div className="noise-overlay absolute inset-0 opacity-40" />
         </div>
 
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-16 md:grid-cols-12 md:py-20">
-          <div className="md:col-span-7">
+          <Reveal className="md:col-span-7" y={28}>
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="premium" className="gap-1">
+              <Badge variant="premium" className="gap-1 shadow-[0_10px_30px_-18px_hsl(var(--brand-to)/0.7)]">
                 <Sparkles className="size-3.5" />
-                Premium delivery
+                Atendimento premium
               </Badge>
-              <Badge variant="muted">Performance & SEO</Badge>
-              <Badge variant="muted">UX que converte</Badge>
+              <Badge variant="muted">Experiência inspirada nas grandes marcas</Badge>
             </div>
 
-            <h1 className="mt-6 text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-5xl">
-              Sites e sistemas com estética premium, performance e conversão.
+            <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.98] tracking-tight md:text-7xl">
+              Seu site pode vender por você{" "}
+              <span className="bg-gradient-to-r from-foreground via-foreground to-[hsl(var(--brand-to))] bg-clip-text text-transparent">
+                todos os dias
+              </span>
+              .
             </h1>
-            <p className="mt-5 max-w-xl text-pretty text-base leading-7 text-muted-foreground md:text-lg">
-              Eu sou o Gustavo Andrade. Construo experiências rápidas e elegantes
-              em Next.js — com foco em UX, SEO e engenharia limpa. Se você quer
-              algo “de verdade” (sem gambiarra), vamos conversar.
+            <p className="mt-6 max-w-2xl text-pretty text-base leading-7 text-muted-foreground md:text-xl md:leading-8">
+              Eu sou o Gustavo Andrade. Crio sites e sistemas que valorizam sua
+              marca, deixam sua oferta clara e ajudam sua empresa a fechar mais
+              clientes com previsibilidade.
             </p>
 
             <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button asChild variant="premium" size="lg">
+              <Button asChild variant="premium" size="lg" className="shadow-[0_18px_45px_-24px_hsl(var(--brand-to)/0.8)]">
                 <Link href="/contact">
                   Vamos conversar <ArrowRight className="ml-1" />
                 </Link>
@@ -48,39 +55,40 @@ export default async function HomePage() {
               </Button>
             </div>
 
-            <div className="mt-8 grid max-w-xl grid-cols-1 gap-3 sm:grid-cols-2">
+            <Stagger className="mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2" delay={0.12}>
               {[
-                "Entrega rápida, sem perder qualidade",
-                "Atenção obsessiva a detalhes de UI",
-                "Arquitetura escalável e limpa",
-                "Deploy pronto para Vercel",
+                "Posicionamento claro para o cliente certo",
+                "Visual profissional que aumenta confiança",
+                "Fluxo simples para receber mais pedidos",
+                "Acompanhamento próximo do início ao lançamento",
               ].map((item) => (
-                <div key={item} className="flex items-start gap-2 text-sm">
+                <StaggerItem key={item} className="flex items-start gap-2 text-sm">
                   <span className="mt-0.5 inline-flex size-5 items-center justify-center rounded-full bg-secondary">
                     <Check className="size-3.5" />
                   </span>
                   <span className="text-muted-foreground">{item}</span>
-                </div>
+                </StaggerItem>
               ))}
-            </div>
-          </div>
+            </Stagger>
+          </Reveal>
 
-          <div className="md:col-span-5">
-            <div className="relative h-full overflow-hidden rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/60 to-background p-6 shadow-[0_24px_80px_-48px_rgba(0,0,0,0.6)]">
+          <Reveal className="md:col-span-5" delay={0.12} y={34}>
+            <div className="relative overflow-hidden rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/80 to-background/80 p-6 shadow-[0_24px_80px_-48px_rgba(0,0,0,0.6)] backdrop-blur-xl">
+              <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,hsl(var(--brand-to)/0.20),transparent_45%)]" />
               <div className="flex flex-col gap-5">
                 <p className="text-sm font-medium text-muted-foreground">
-                  Prova social (resumo)
+                  Resultados que importam
                 </p>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {[
-                    { kpi: "+Core Web Vitals", label: "melhoria de performance" },
-                    { kpi: "+Conversão", label: "copy e UX orientadas a venda" },
-                    { kpi: "Automação", label: "menos trabalho manual" },
-                    { kpi: "SEO", label: "base técnica bem feita" },
+                    { kpi: "Mais contatos", label: "página pensada para gerar conversas" },
+                    { kpi: "Mais confiança", label: "apresentação profissional da marca" },
+                    { kpi: "Mais agilidade", label: "menos retrabalho no atendimento" },
+                    { kpi: "Mais clareza", label: "mensagem direta para o cliente ideal" },
                   ].map((x) => (
                     <div
                       key={x.kpi}
-                      className="rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/70 p-4"
+                      className="h-full min-h-[102px] rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/80 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--brand-to)/0.45)]"
                     >
                       <p className="text-sm font-semibold tracking-tight">
                         {x.kpi}
@@ -92,30 +100,32 @@ export default async function HomePage() {
                   ))}
                 </div>
 
-                <div className="rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/70 p-4">
+                <div className="rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/80 p-4">
                   <p className="text-sm font-semibold tracking-tight">
-                    “Design bonito vende mais quando é rápido.”
+                    "Quando o cliente entende seu valor, a venda avança."
                   </p>
                   <p className="mt-2 text-sm text-muted-foreground">
-                    Eu uno estética premium + engenharia para entregar páginas que
-                    carregam rápido, passam confiança e levam o usuário até o
-                    CTA.
+                    Eu junto estratégia, design e texto para criar uma experiência
+                    que apresenta sua oferta com clareza e leva o visitante para
+                    a ação certa.
                   </p>
                 </div>
               </div>
             </div>
-          </div>
+          </Reveal>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
+      <AppleShowcase />
+
+      <Reveal className="mx-auto max-w-6xl px-4 py-14">
         <div className="flex items-end justify-between gap-6">
           <div>
             <h2 className="text-2xl font-semibold tracking-tight">
               Projetos em destaque
             </h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Vitrine de entregas reais — foco em UX, performance e clareza.
+              Alguns trabalhos que já ajudaram negócios a vender melhor.
             </p>
           </div>
           <Button asChild variant="outline" className="hidden sm:inline-flex">
@@ -123,64 +133,68 @@ export default async function HomePage() {
           </Button>
         </div>
 
-        <div className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <Stagger className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" delay={0.05}>
           {featured.slice(0, 6).map((p) => (
-            <ProjectCard key={p.slug} project={p} />
+            <StaggerItem key={p.slug}>
+              <ProjectCard project={p} />
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
 
         <div className="mt-8 sm:hidden">
           <Button asChild variant="outline" className="w-full">
             <Link href="/projects">Ver todos os projetos</Link>
           </Button>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
+      <Reveal className="mx-auto max-w-6xl px-4 py-14">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
           <div className="md:col-span-5">
             <h2 className="text-2xl font-semibold tracking-tight">Serviços</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Entrega ponta a ponta — do design ao deploy, com código limpo.
+              Soluções para fortalecer sua presença digital e aumentar resultados.
             </p>
           </div>
           <div className="grid gap-4 md:col-span-7 sm:grid-cols-2">
             {[
               {
                 title: "Sites institucionais",
-                desc: "Credibilidade + performance + SEO, com visual premium.",
+                desc: "Para apresentar sua empresa com autoridade e conquistar novos clientes.",
               },
               {
                 title: "Landing pages",
-                desc: "Copy + UI + otimização para conversão e anúncios.",
+                desc: "Páginas diretas para campanhas, lançamentos e captação de leads.",
               },
               {
-                title: "Sistemas e dashboards",
-                desc: "Admin, CRUD, permissões, métricas e integrações.",
+                title: "Sistemas sob medida",
+                desc: "Ferramentas internas para organizar operação, atendimento e vendas.",
               },
               {
-                title: "Automação e integrações",
-                desc: "Menos trabalho manual: fluxos, APIs e processos.",
+                title: "Automações de rotina",
+                desc: "Processos mais rápidos para você e sua equipe ganharem tempo.",
               },
             ].map((s) => (
               <div
                 key={s.title}
-                className="rounded-[var(--radius)] border border-border/60 bg-card p-5 shadow-[0_1px_0_0_rgba(0,0,0,0.04)]"
+                className="group rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-card to-card/70 p-5 shadow-[0_1px_0_0_rgba(0,0,0,0.04)] transition duration-300 hover:-translate-y-1 hover:border-[hsl(var(--brand-to)/0.45)] hover:shadow-[0_24px_50px_-38px_rgba(0,0,0,0.6)]"
               >
-                <p className="font-semibold tracking-tight">{s.title}</p>
+                <p className="font-semibold tracking-tight transition group-hover:text-[hsl(var(--brand-to))]">
+                  {s.title}
+                </p>
                 <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
               </div>
             ))}
           </div>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
+      <Reveal className="mx-auto max-w-6xl px-4 py-14">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
           <div className="md:col-span-5">
             <h2 className="text-2xl font-semibold tracking-tight">Processo</h2>
             <p className="mt-2 text-sm text-muted-foreground">
-              Um jeito claro de trabalhar — sem ruído e sem surpresa.
+              Processo simples, transparente e sem surpresas.
             </p>
           </div>
           <div className="md:col-span-7">
@@ -188,29 +202,30 @@ export default async function HomePage() {
               {[
                 {
                   step: "01",
-                  title: "Diagnóstico",
-                  desc: "Entendo contexto, objetivo e restrições. Alinho escopo e métricas.",
+                  title: "Entendimento do negócio",
+                  desc: "Alinho com você os objetivos, público e prioridades do projeto.",
                 },
                 {
                   step: "02",
-                  title: "Design + Arquitetura",
-                  desc: "UI premium, grid e componentes. Estrutura pensada para escalar.",
+                  title: "Direção da página",
+                  desc: "Defino mensagem, estrutura e visual para valorizar sua oferta.",
                 },
                 {
                   step: "03",
-                  title: "Implementação",
-                  desc: "Código limpo em Next.js, validações, integrações e performance.",
+                  title: "Produção",
+                  desc: "Desenvolvo o projeto com foco em qualidade, clareza e resultado.",
                 },
                 {
                   step: "04",
-                  title: "Entrega e evolução",
-                  desc: "Deploy na Vercel, ajustes finais e plano de melhorias contínuas.",
+                  title: "Publicação e melhorias",
+                  desc: "Entramos no ar e evoluímos com base no retorno real dos clientes.",
                 },
               ].map((p) => (
                 <li
                   key={p.step}
-                  className="flex gap-4 rounded-[var(--radius)] border border-border/60 bg-card p-5"
+                  className="relative flex gap-4 overflow-hidden rounded-[var(--radius)] border border-border/60 bg-card p-5 transition duration-300 hover:border-[hsl(var(--brand-to)/0.45)]"
                 >
+                  <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,transparent_0%,hsl(var(--brand-to)/0.08)_45%,transparent_100%)] opacity-0 transition duration-500 hover:opacity-100" />
                   <div className="w-10 shrink-0 text-sm font-semibold text-muted-foreground">
                     {p.step}
                   </div>
@@ -223,22 +238,23 @@ export default async function HomePage() {
             </ol>
           </div>
         </div>
-      </section>
+      </Reveal>
 
-      <section className="mx-auto max-w-6xl px-4 py-14">
-        <div className="rounded-[var(--radius)] border border-border/60 bg-gradient-to-r from-[hsl(var(--brand-to)/0.18)] via-muted/50 to-background p-8 md:p-10">
+      <Reveal className="mx-auto max-w-6xl px-4 py-14" y={28}>
+        <div className="relative overflow-hidden rounded-[var(--radius)] border border-border/60 bg-gradient-to-r from-[hsl(var(--brand-to)/0.18)] via-muted/50 to-background p-8 md:p-10">
+          <div className="absolute -right-10 -top-20 h-52 w-52 rounded-full bg-[hsl(var(--brand-to)/0.18)] blur-3xl animate-[float_8s_ease-in-out_infinite]" />
           <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div>
               <h2 className="text-2xl font-semibold tracking-tight">
                 Pronto para tirar seu projeto do papel?
               </h2>
               <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                Me conte o que você quer construir. Eu respondo com perguntas
-                certeiras, estimativa realista e próximos passos.
+                Me conte seu objetivo e eu te mostro o melhor caminho para ter
+                uma página que passe confiança e traga oportunidades reais.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild variant="premium" size="lg">
+              <Button asChild variant="premium" size="lg" className="shadow-[0_18px_45px_-24px_hsl(var(--brand-to)/0.85)]">
                 <Link href="/contact">
                   Vamos conversar <ArrowRight className="ml-1" />
                 </Link>
@@ -249,8 +265,7 @@ export default async function HomePage() {
             </div>
           </div>
         </div>
-      </section>
+      </Reveal>
     </div>
   );
 }
-

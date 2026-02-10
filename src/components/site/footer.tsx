@@ -13,8 +13,8 @@ export function SiteFooter() {
               Gustavo Andrade
             </p>
             <p className="mt-2 max-w-md text-sm text-muted-foreground">
-              Desenvolvimento premium de sites e sistemas — foco em performance,
-              UX e crescimento.
+              Crio sites e sistemas para fortalecer sua marca e ajudar sua
+              empresa a vender mais.
             </p>
           </div>
 
@@ -60,4 +60,3 @@ export function SiteFooter() {
     </footer>
   );
 }
-

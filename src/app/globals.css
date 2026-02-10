@@ -103,6 +103,34 @@ body {
   @apply bg-background text-foreground antialiased;
 }
 
+.noise-overlay {
+  background-image:
+    radial-gradient(hsl(var(--foreground) / 0.08) 0.5px, transparent 0.5px);
+  background-size: 4px 4px;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-16px);
+  }
+}
+
+@keyframes aurora {
+  0% {
+    transform: translate3d(-3%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(3%, -2%, 0) scale(1.05);
+  }
+  100% {
+    transform: translate3d(-3%, 0, 0) scale(1);
+  }
+}
+
 ::selection {
   background: hsl(var(--brand-to) / 0.25);
 }
