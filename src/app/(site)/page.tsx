@@ -35,6 +35,66 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const featured = await getFeaturedProjects();
   const siteUrl = getSiteUrl();
+  const proofPoints = [
+    { value: "+20", label: "projetos entregues" },
+    { value: "24h", label: "prazo médio de resposta" },
+    { value: "100%", label: "foco em conversão e clareza" },
+  ];
+  const beforeAfter = [
+    {
+      title: "Mensagem confusa",
+      before: "Visitante não entende rápido o que você vende.",
+      after: "Oferta clara em segundos, com caminho direto para contato.",
+    },
+    {
+      title: "Visual amador",
+      before: "Baixa percepção de valor e pouca confiança na marca.",
+      after: "Design premium que reforça autoridade e diferenciação.",
+    },
+    {
+      title: "Sem direção de ação",
+      before: "Página bonita, mas sem gerar leads consistentes.",
+      after: "Estrutura com CTA estratégico para aumentar oportunidades.",
+    },
+  ];
+  const offers = [
+    {
+      name: "Starter",
+      ideal: "Para validar oferta",
+      price: "A partir de R$ 2.900",
+      scope: "Landing page de alta conversão com copy base e CTA estratégico.",
+    },
+    {
+      name: "Growth",
+      ideal: "Para escalar captação",
+      price: "A partir de R$ 5.900",
+      scope: "Site completo com páginas estratégicas, narrativa comercial e SEO base.",
+    },
+    {
+      name: "Premium",
+      ideal: "Para operação robusta",
+      price: "Sob proposta",
+      scope: "Sistema ou projeto sob medida com automações e integrações de negócio.",
+    },
+  ];
+  const faqs = [
+    {
+      q: "Em quanto tempo o projeto fica pronto?",
+      a: "Depende do escopo. Landing pages costumam ficar prontas entre 7 e 15 dias. Projetos maiores seguem um cronograma definido no início.",
+    },
+    {
+      q: "Você ajuda com texto e estrutura da página?",
+      a: "Sim. Eu te ajudo a organizar a mensagem, definir a estrutura e montar uma página orientada para conversão.",
+    },
+    {
+      q: "Como funciona pagamento e proposta?",
+      a: "Após entender seu objetivo, envio proposta com escopo, prazo e investimento. O pagamento é dividido por etapas.",
+    },
+    {
+      q: "Depois da entrega você dá suporte?",
+      a: "Sim. Incluo suporte inicial pós-lançamento para ajustes finos e estabilização da operação.",
+    },
+  ];
   const websiteJsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -74,6 +134,8 @@ export default async function HomePage() {
           <div className="absolute left-1/2 top-[-260px] h-[520px] w-[920px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[hsl(var(--brand-to)/0.22)] via-[hsl(var(--brand-from)/0.10)] to-transparent blur-3xl animate-[aurora_16s_linear_infinite]" />
           <div className="absolute bottom-[-240px] right-[-240px] h-[520px] w-[520px] rounded-full bg-[hsl(var(--brand-to)/0.16)] blur-3xl animate-[float_8s_ease-in-out_infinite]" />
           <div className="absolute left-[-180px] top-[240px] h-[380px] w-[380px] rounded-full bg-[hsl(var(--brand-from)/0.12)] blur-3xl animate-[float_9s_ease-in-out_infinite]" />
+          <div className="absolute inset-x-[10%] top-[-120px] h-[360px] bg-[radial-gradient(circle_at_center,hsl(var(--brand-to)/0.22),transparent_65%)] blur-3xl animate-[aurora_20s_ease-in-out_infinite]" />
+          <div className="absolute left-1/2 top-0 h-[520px] w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[hsl(var(--brand-to)/0.45)] to-transparent opacity-40 blur-[1px] animate-pulse" />
           <div className="noise-overlay absolute inset-0 opacity-40" />
         </div>
 
@@ -171,6 +233,20 @@ export default async function HomePage() {
           </Reveal>
         </div>
       </section>
+
+      <Reveal className="mx-auto max-w-6xl px-4 pb-4" y={20}>
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {proofPoints.map((item) => (
+            <div
+              key={item.label}
+              className="rounded-[calc(var(--radius)-4px)] border border-border/60 bg-background/70 p-4 text-center backdrop-blur-sm"
+            >
+              <p className="text-2xl font-semibold tracking-tight">{item.value}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{item.label}</p>
+            </div>
+          ))}
+        </div>
+      </Reveal>
 
       <AppleShowcase />
 
@@ -296,6 +372,133 @@ export default async function HomePage() {
         </div>
       </Reveal>
 
+      <Reveal className="mx-auto max-w-6xl px-4 py-14">
+        <div className="rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/55 to-background p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] md:p-8">
+          <div className="grid gap-8 md:grid-cols-12">
+            <div className="md:col-span-4">
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Antes e depois
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                Ajustes certos mudam a percepção e o resultado.
+              </h2>
+            </div>
+            <div className="md:col-span-8">
+              <div className="focus-grid space-y-4">
+                {beforeAfter.map((item, index) => (
+                  <div
+                    key={item.title}
+                    className="focus-card rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/80 p-5"
+                  >
+                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                      Caso 0{index + 1}
+                    </p>
+                    <p className="mt-2 font-semibold tracking-tight">{item.title}</p>
+                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
+                      <div className="rounded-[calc(var(--radius)-8px)] border border-border/60 bg-muted/45 p-4">
+                        <p className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground">
+                          Antes
+                        </p>
+                        <p className="mt-2 text-sm text-muted-foreground">{item.before}</p>
+                      </div>
+                      <div className="rounded-[calc(var(--radius)-8px)] border border-[hsl(var(--brand-to)/0.38)] bg-[hsl(var(--brand-to)/0.10)] p-4">
+                        <p className="text-xs font-medium uppercase tracking-[0.1em] text-[hsl(var(--brand-to))]">
+                          Depois
+                        </p>
+                        <p className="mt-2 text-sm text-foreground/90">{item.after}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal className="mx-auto max-w-6xl px-4 py-14">
+        <div className="rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/55 to-background p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] md:p-8">
+          <div className="flex items-end justify-between gap-6">
+            <div>
+              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+                Pacotes
+              </p>
+              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+                Comece com uma oferta clara.
+              </h2>
+            </div>
+            <Button asChild variant="outline" className="hidden sm:inline-flex">
+              <Link href="/contact">Solicitar proposta</Link>
+            </Button>
+          </div>
+          <div className="focus-grid mt-8 grid gap-4 lg:grid-cols-3">
+            {offers.map((offer, index) => (
+              <div
+                key={offer.name}
+                className={`focus-card group rounded-[calc(var(--radius)-6px)] border p-5 transition duration-300 hover:-translate-y-1 ${
+                  index === 1
+                    ? "border-[hsl(var(--brand-to)/0.45)] bg-[linear-gradient(160deg,hsl(var(--brand-to)/0.18),transparent_60%),hsl(var(--background))] shadow-[0_24px_60px_-40px_hsl(var(--brand-to)/0.75)]"
+                    : "border-border/60 bg-background/80 hover:border-[hsl(var(--brand-to)/0.45)]"
+                }`}
+              >
+                {index === 1 ? (
+                  <p className="mb-3 inline-flex rounded-full border border-[hsl(var(--brand-to)/0.45)] bg-[hsl(var(--brand-to)/0.14)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--brand-to))]">
+                    Mais escolhido
+                  </p>
+                ) : null}
+                <p className="text-sm text-muted-foreground">{offer.ideal}</p>
+                <p className="mt-2 text-2xl font-semibold tracking-tight">{offer.name}</p>
+                <p className="mt-2 text-sm font-medium">{offer.price}</p>
+                <p className="mt-3 text-sm text-muted-foreground">{offer.scope}</p>
+                <Button
+                  asChild
+                  variant={index === 1 ? "premium" : "outline"}
+                  className="mt-5"
+                >
+                  <Link href="/contact">
+                    Quero esse formato <ArrowRight className="ml-1 size-4" />
+                  </Link>
+                </Button>
+              </div>
+            ))}
+          </div>
+          <div className="mt-6 sm:hidden">
+            <Button asChild variant="premium" className="w-full">
+              <Link href="/contact">Solicitar proposta</Link>
+            </Button>
+          </div>
+        </div>
+      </Reveal>
+
+      <Reveal className="mx-auto max-w-6xl px-4 py-14">
+        <div className="grid gap-8 rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/55 to-background p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] md:grid-cols-12 md:p-8">
+          <div className="md:col-span-4">
+            <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
+              Dúvidas frequentes
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
+              Tudo o que você precisa saber para começar.
+            </h2>
+            <p className="mt-4 text-sm leading-7 text-muted-foreground">
+              Se sua dúvida não estiver aqui, me chama no contato que eu te
+              respondo com cenário real para o seu caso.
+            </p>
+          </div>
+          <div className="md:col-span-8">
+            <div className="divide-y divide-border/60 rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/80">
+              {faqs.map((item) => (
+                <details key={item.q} className="group px-5 py-4">
+                  <summary className="cursor-pointer list-none pr-6 font-medium tracking-tight">
+                    {item.q}
+                  </summary>
+                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       <Reveal className="mx-auto max-w-6xl px-4 py-14" y={28}>
         <div className="relative overflow-hidden rounded-[var(--radius)] border border-border/60 bg-gradient-to-r from-[hsl(var(--brand-to)/0.18)] via-muted/50 to-background p-8 md:p-10">
           <div className="absolute -right-10 -top-20 h-52 w-52 rounded-full bg-[hsl(var(--brand-to)/0.18)] blur-3xl animate-[float_8s_ease-in-out_infinite]" />
@@ -322,6 +525,14 @@ export default async function HomePage() {
           </div>
         </div>
       </Reveal>
+
+      <div className="fixed inset-x-4 bottom-4 z-40 sm:hidden">
+        <Button asChild variant="premium" size="lg" className="w-full shadow-[0_20px_45px_-25px_hsl(var(--brand-to)/0.8)]">
+          <Link href="/contact">
+            Quero orçamento <ArrowRight className="ml-1 size-4" />
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }

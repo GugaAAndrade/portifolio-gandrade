@@ -51,7 +51,7 @@ export function SiteFooter() {
             <Link className="hover:text-foreground" href="/contact">
               Contato
             </Link>
-            <Link className="hover:text-foreground" href="/admin">
+            <Link className="hover:text-foreground" href="/admin" prefetch={false}>
               Admin
             </Link>
           </div>

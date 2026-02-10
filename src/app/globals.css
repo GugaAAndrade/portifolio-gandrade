@@ -131,6 +131,30 @@ body {
   }
 }
 
+/* Hover blur premium effect for desktop cards */
+@media (hover: hover) and (pointer: fine) {
+  .focus-grid:hover .focus-card {
+    filter: blur(1.4px);
+    opacity: 0.62;
+    transform: scale(0.985);
+  }
+
+  .focus-grid:hover .focus-card:hover {
+    filter: blur(0);
+    opacity: 1;
+    transform: translateY(-4px) scale(1.01);
+  }
+}
+
+.focus-card {
+  transition:
+    filter 260ms ease,
+    opacity 260ms ease,
+    transform 260ms ease,
+    border-color 260ms ease,
+    box-shadow 260ms ease;
+}
+
 ::selection {
   background: hsl(var(--brand-to) / 0.25);
 }
