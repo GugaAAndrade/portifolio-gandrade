@@ -36,25 +36,25 @@ export default async function HomePage() {
   const featured = await getFeaturedProjects();
   const siteUrl = getSiteUrl();
   const proofPoints = [
-    { value: "+20", label: "projetos entregues" },
-    { value: "24h", label: "prazo médio de resposta" },
-    { value: "100%", label: "foco em conversão e clareza" },
+    { title: "Resposta rápida", detail: "Retorno inicial em até 24 horas úteis." },
+    { title: "Escopo sem surpresa", detail: "Investimento e entregáveis definidos antes de iniciar." },
+    { title: "Acompanhamento próximo", detail: "Atualizações frequentes durante todo o projeto." },
   ];
   const beforeAfter = [
     {
       title: "Mensagem confusa",
-      before: "Visitante não entende rápido o que você vende.",
-      after: "Oferta clara em segundos, com caminho direto para contato.",
+      scenario: "Visitante não entende rapidamente o que você vende.",
+      outcome: "Oferta clara em segundos, com caminho direto para contato.",
     },
     {
       title: "Visual amador",
-      before: "Baixa percepção de valor e pouca confiança na marca.",
-      after: "Design premium que reforça autoridade e diferenciação.",
+      scenario: "Baixa percepção de valor e pouca confiança na marca.",
+      outcome: "Design premium que reforça autoridade e diferenciação.",
     },
     {
       title: "Sem direção de ação",
-      before: "Página bonita, mas sem gerar leads consistentes.",
-      after: "Estrutura com CTA estratégico para aumentar oportunidades.",
+      scenario: "Página bonita, mas sem gerar leads consistentes.",
+      outcome: "Estrutura com CTA estratégico para aumentar oportunidades.",
     },
   ];
   const offers = [
@@ -238,11 +238,11 @@ export default async function HomePage() {
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           {proofPoints.map((item) => (
             <div
-              key={item.label}
-              className="rounded-[calc(var(--radius)-4px)] border border-border/60 bg-background/70 p-4 text-center backdrop-blur-sm"
+              key={item.title}
+              className="rounded-[calc(var(--radius)-4px)] border border-border/60 bg-background/70 p-4 backdrop-blur-sm"
             >
-              <p className="text-2xl font-semibold tracking-tight">{item.value}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{item.label}</p>
+              <p className="text-base font-semibold tracking-tight">{item.title}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{item.detail}</p>
             </div>
           ))}
         </div>
@@ -380,7 +380,7 @@ export default async function HomePage() {
                 Antes e depois
               </p>
               <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                Ajustes certos mudam a percepção e o resultado.
+                Cenário atual e resultado esperado.
               </h2>
             </div>
             <div className="md:col-span-8">
@@ -397,15 +397,15 @@ export default async function HomePage() {
                     <div className="mt-4 grid gap-3 sm:grid-cols-2">
                       <div className="rounded-[calc(var(--radius)-8px)] border border-border/60 bg-muted/45 p-4">
                         <p className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground">
-                          Antes
+                          Cenário atual
                         </p>
-                        <p className="mt-2 text-sm text-muted-foreground">{item.before}</p>
+                        <p className="mt-2 text-sm text-muted-foreground">{item.scenario}</p>
                       </div>
                       <div className="rounded-[calc(var(--radius)-8px)] border border-[hsl(var(--brand-to)/0.38)] bg-[hsl(var(--brand-to)/0.10)] p-4">
                         <p className="text-xs font-medium uppercase tracking-[0.1em] text-[hsl(var(--brand-to))]">
-                          Depois
+                          Após o projeto
                         </p>
-                        <p className="mt-2 text-sm text-foreground/90">{item.after}</p>
+                        <p className="mt-2 text-sm text-foreground/90">{item.outcome}</p>
                       </div>
                     </div>
                   </div>
