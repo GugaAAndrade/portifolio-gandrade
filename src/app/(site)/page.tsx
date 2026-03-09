@@ -1,538 +1,380 @@
-import { ArrowRight, Check, Sparkles } from "lucide-react";
+import {
+  ArrowRight,
+  ChevronDown,
+  Code2,
+  LayoutTemplate,
+  Mail,
+  MessageSquare,
+  Phone,
+  Rocket,
+  Settings,
+  ShieldCheck,
+  Instagram,
+} from "lucide-react";
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { ProjectCard } from "@/components/projects/project-card";
-import { AppleShowcase } from "@/components/site/apple-showcase";
-import { Reveal, Stagger, StaggerItem } from "@/components/site/reveal";
-import { Badge } from "@/components/ui/badge";
+import { Reveal } from "@/components/site/reveal";
+import { Stagger, StaggerItem } from "@/components/site/reveal";
 import { Button } from "@/components/ui/button";
-import { getFeaturedProjects } from "@/lib/db/projects";
-import { getSiteUrl } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Desenvolvimento premium de sites e sistemas",
+  title: "Sites e sistemas sob medida",
   description:
-    "Criação de sites, landing pages e sistemas sob medida com foco em conversão, credibilidade e crescimento do negócio.",
-  alternates: { canonical: "/" },
-  openGraph: {
-    title: "Gustavo Andrade — Desenvolvimento premium de sites e sistemas",
-    description:
-      "Sites e sistemas para fortalecer sua marca e gerar mais oportunidades de negócio.",
-    url: "/",
-    type: "website",
-    images: [{ url: "/icon", alt: "Gustavo Andrade — Portfólio" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Gustavo Andrade — Desenvolvimento premium",
-    description:
-      "Sites e sistemas para fortalecer sua marca e gerar mais oportunidades.",
-    images: ["/icon"],
-  },
+    "Desenvolvimento de sites, landing pages e sistemas com direção estratégica, visual premium e foco em resultado.",
 };
 
-export default async function HomePage() {
-  const featured = await getFeaturedProjects();
-  const siteUrl = getSiteUrl();
-  const proofPoints = [
-    { title: "Resposta rápida", detail: "Retorno inicial em até 24 horas úteis." },
-    { title: "Escopo sem surpresa", detail: "Investimento e entregáveis definidos antes de iniciar." },
-    { title: "Acompanhamento próximo", detail: "Atualizações frequentes durante todo o projeto." },
-  ];
-  const beforeAfter = [
-    {
-      title: "Mensagem confusa",
-      scenario: "Visitante não entende rapidamente o que você vende.",
-      outcome: "Oferta clara em segundos, com caminho direto para contato.",
-    },
-    {
-      title: "Visual amador",
-      scenario: "Baixa percepção de valor e pouca confiança na marca.",
-      outcome: "Design premium que reforça autoridade e diferenciação.",
-    },
-    {
-      title: "Sem direção de ação",
-      scenario: "Página bonita, mas sem gerar leads consistentes.",
-      outcome: "Estrutura com CTA estratégico para aumentar oportunidades.",
-    },
-  ];
-  const offers = [
-    {
-      name: "Starter",
-      ideal: "Para validar oferta",
-      price: "A partir de R$ 2.900",
-      scope: "Landing page de alta conversão com copy base e CTA estratégico.",
-    },
-    {
-      name: "Growth",
-      ideal: "Para escalar captação",
-      price: "A partir de R$ 5.900",
-      scope: "Site completo com páginas estratégicas, narrativa comercial e SEO base.",
-    },
-    {
-      name: "Premium",
-      ideal: "Para operação robusta",
-      price: "Sob proposta",
-      scope: "Sistema ou projeto sob medida com automações e integrações de negócio.",
-    },
-  ];
-  const faqs = [
-    {
-      q: "Em quanto tempo o projeto fica pronto?",
-      a: "Depende do escopo. Landing pages costumam ficar prontas entre 7 e 15 dias. Projetos maiores seguem um cronograma definido no início.",
-    },
-    {
-      q: "Você ajuda com texto e estrutura da página?",
-      a: "Sim. Eu te ajudo a organizar a mensagem, definir a estrutura e montar uma página orientada para conversão.",
-    },
-    {
-      q: "Como funciona pagamento e proposta?",
-      a: "Após entender seu objetivo, envio proposta com escopo, prazo e investimento. O pagamento é dividido por etapas.",
-    },
-    {
-      q: "Depois da entrega você dá suporte?",
-      a: "Sim. Incluo suporte inicial pós-lançamento para ajustes finos e estabilização da operação.",
-    },
-  ];
-  const websiteJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    name: "Gustavo Andrade",
-    url: siteUrl,
-    potentialAction: {
-      "@type": "SearchAction",
-      target: `${siteUrl}/projects?search={search_term_string}`,
-      "query-input": "required name=search_term_string",
-    },
-  };
-  const personJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Gustavo Andrade",
-    url: siteUrl,
-    jobTitle: "Desenvolvedor de sites e sistemas",
-    sameAs: [
-      "https://www.linkedin.com/in/guga-andrade/",
-      "https://github.com/GugaAAndrade",
+const methodCards = [
+  {
+    eyebrow: "Posicionamento",
+    title: "Direção de Mensagem",
+    desc: "Organizo sua proposta para o cliente entender valor rapidamente e avançar para contato.",
+    Icon: MessageSquare,
+  },
+  {
+    eyebrow: "Interface",
+    title: "Design de Alta Percepção",
+    desc: "Interface limpa, moderna e coerente com sua marca para aumentar confiança e autoridade.",
+    Icon: LayoutTemplate,
+  },
+  {
+    eyebrow: "Engenharia",
+    title: "Desenvolvimento Robusto",
+    desc: "Código escalável, performance e estrutura técnica para crescer sem retrabalho.",
+    Icon: Code2,
+  },
+  {
+    eyebrow: "Conversão",
+    title: "Fluxo Comercial",
+    desc: "Seções e CTAs posicionados para transformar visita em conversa qualificada.",
+    Icon: Rocket,
+  },
+  {
+    eyebrow: "Operação",
+    title: "Automações e Integrações",
+    desc: "Conexões com ferramentas e automações para reduzir esforço operacional do time.",
+    Icon: Settings,
+  },
+  {
+    eyebrow: "Entrega",
+    title: "Acompanhamento e Evolução",
+    desc: "Suporte pós-lançamento e ajustes orientados por feedback real dos usuários.",
+    Icon: ShieldCheck,
+  },
+];
+
+const plans = [
+  {
+    name: "Landing Starter",
+    desc: "Para validar oferta e captar leads com velocidade.",
+    bullets: [
+      "Estrutura de página de conversão",
+      "Design responsivo premium",
+      "Copy base orientada a ação",
+      "Formulário e CTA estratégicos",
+      "Publicação e ajustes iniciais",
     ],
-    knowsAbout: ["Desenvolvimento web", "Landing pages", "Sistemas sob medida"],
-  };
+    highlighted: false,
+  },
+  {
+    name: "Website Growth",
+    desc: "Para posicionar marca e gerar demanda contínua.",
+    bullets: [
+      "Arquitetura completa de páginas",
+      "Design + desenvolvimento full",
+      "SEO técnico essencial",
+      "Seções comerciais estratégicas",
+      "Acompanhamento nas primeiras semanas",
+    ],
+    highlighted: true,
+  },
+  {
+    name: "Sistema Sob Medida",
+    desc: "Para operação interna e escala digital do negócio.",
+    bullets: [
+      "Mapeamento de fluxo da operação",
+      "Painéis e módulos personalizados",
+      "Integrações com ferramentas",
+      "Automação de processos-chave",
+      "Roadmap evolutivo de produto",
+    ],
+    highlighted: false,
+  },
+];
 
+const faqs = [
+  {
+    question: "Em quanto tempo um projeto fica pronto?",
+    answer:
+      "Depende do escopo. Landing pages costumam levar de 7 a 15 dias úteis, websites completos de 3 a 6 semanas e sistemas sob medida variam conforme complexidade e integrações.",
+  },
+  {
+    question: "Você ajuda com estrutura e copy da página?",
+    answer:
+      "Sim. Eu organizo a arquitetura da informação, hierarquia de conteúdo e direção de copy para deixar a comunicação mais clara e orientada a ação.",
+  },
+  {
+    question: "Como funciona escopo e pagamento?",
+    answer:
+      "Primeiro alinhamos objetivo e entregáveis. Em seguida envio proposta com escopo fechado, cronograma e investimento. O pagamento é dividido por etapas do projeto.",
+  },
+  {
+    question: "Você faz manutenção depois da entrega?",
+    answer:
+      "Sim. Existe opção de suporte contínuo para melhorias, ajustes e evolução do projeto após o lançamento.",
+  },
+  {
+    question: "Dá para integrar com ferramentas que eu já uso?",
+    answer:
+      "Na maioria dos casos, sim. Posso integrar formulários, CRM, automações, analytics, e-mail marketing e outras ferramentas da sua operação.",
+  },
+  {
+    question: "Qual projeto é ideal para o meu momento?",
+    answer:
+      "Se você precisa validar oferta, comece por landing page. Para consolidar marca e presença, website completo. Para ganho operacional, sistema sob medida.",
+  },
+];
+
+export default function HomePage() {
   return (
-    <div className="relative">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
-      />
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 -z-10">
-          <div className="absolute left-1/2 top-[-260px] h-[520px] w-[920px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[hsl(var(--brand-to)/0.22)] via-[hsl(var(--brand-from)/0.10)] to-transparent blur-3xl animate-[aurora_16s_linear_infinite]" />
-          <div className="absolute bottom-[-240px] right-[-240px] h-[520px] w-[520px] rounded-full bg-[hsl(var(--brand-to)/0.16)] blur-3xl animate-[float_8s_ease-in-out_infinite]" />
-          <div className="absolute left-[-180px] top-[240px] h-[380px] w-[380px] rounded-full bg-[hsl(var(--brand-from)/0.12)] blur-3xl animate-[float_9s_ease-in-out_infinite]" />
-          <div className="absolute inset-x-[10%] top-[-120px] h-[360px] bg-[radial-gradient(circle_at_center,hsl(var(--brand-to)/0.22),transparent_65%)] blur-3xl animate-[aurora_20s_ease-in-out_infinite]" />
-          <div className="absolute left-1/2 top-0 h-[520px] w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-[hsl(var(--brand-to)/0.45)] to-transparent opacity-40 blur-[1px] animate-pulse" />
-          <div className="noise-overlay absolute inset-0 opacity-40" />
-        </div>
+    <div className="relative overflow-hidden pb-16">
+      <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(140%_80%_at_50%_0%,hsl(var(--brand-from)/0.2),transparent_46%)]" />
 
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-10 px-4 py-16 md:grid-cols-12 md:py-20">
-          <Reveal className="md:col-span-7" y={28}>
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="premium" className="gap-1 shadow-[0_10px_30px_-18px_hsl(var(--brand-to)/0.7)]">
-                <Sparkles className="size-3.5" />
-                Atendimento premium
-              </Badge>
-              <Badge variant="muted">Experiência inspirada nas grandes marcas</Badge>
-            </div>
-
-            <h1 className="mt-6 max-w-4xl text-balance text-5xl font-semibold leading-[0.98] tracking-tight md:text-7xl">
-              Seu site pode vender por você{" "}
-              <span className="bg-gradient-to-r from-foreground via-foreground to-[hsl(var(--brand-to))] bg-clip-text text-transparent">
-                todos os dias
-              </span>
-              .
-            </h1>
-            <p className="mt-6 max-w-2xl text-pretty text-base leading-7 text-muted-foreground md:text-xl md:leading-8">
-              Eu sou o Gustavo Andrade. Crio sites e sistemas que valorizam sua
-              marca, deixam sua oferta clara e ajudam sua empresa a fechar mais
-              clientes com previsibilidade.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
-              <Button asChild variant="premium" size="lg" className="shadow-[0_18px_45px_-24px_hsl(var(--brand-to)/0.8)]">
-                <Link href="/contact">
-                  Vamos conversar <ArrowRight className="ml-1" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/projects">Ver projetos</Link>
-              </Button>
-            </div>
-
-            <Stagger className="mt-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2" delay={0.12}>
-              {[
-                "Posicionamento claro para o cliente certo",
-                "Visual profissional que aumenta confiança",
-                "Fluxo simples para receber mais pedidos",
-                "Acompanhamento próximo do início ao lançamento",
-              ].map((item) => (
-                <StaggerItem key={item} className="flex items-start gap-2 text-sm">
-                  <span className="mt-0.5 inline-flex size-5 items-center justify-center rounded-full bg-secondary">
-                    <Check className="size-3.5" />
-                  </span>
-                  <span className="text-muted-foreground">{item}</span>
-                </StaggerItem>
-              ))}
-            </Stagger>
-          </Reveal>
-
-          <Reveal className="md:col-span-5" delay={0.12} y={34}>
-            <div className="relative overflow-hidden rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/80 to-background/80 p-6 shadow-[0_24px_80px_-48px_rgba(0,0,0,0.6)] backdrop-blur-xl">
-              <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_right,hsl(var(--brand-to)/0.20),transparent_45%)]" />
-              <div className="flex flex-col gap-5">
-                <p className="text-sm font-medium text-muted-foreground">
-                  Resultados que importam
-                </p>
-                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {[
-                    { kpi: "Mais contatos", label: "página pensada para gerar conversas" },
-                    { kpi: "Mais confiança", label: "apresentação profissional da marca" },
-                    { kpi: "Mais agilidade", label: "menos retrabalho no atendimento" },
-                    { kpi: "Mais clareza", label: "mensagem direta para o cliente ideal" },
-                  ].map((x) => (
-                    <div
-                      key={x.kpi}
-                      className="h-full min-h-[102px] rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/80 p-4 transition duration-300 hover:-translate-y-0.5 hover:border-[hsl(var(--brand-to)/0.45)]"
-                    >
-                      <p className="text-sm font-semibold tracking-tight">
-                        {x.kpi}
-                      </p>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        {x.label}
-                      </p>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/80 p-4">
-                  <p className="text-sm font-semibold tracking-tight">
-                    "Quando o cliente entende seu valor, a venda avança."
-                  </p>
-                  <p className="mt-2 text-sm text-muted-foreground">
-                    Eu junto estratégia, design e texto para criar uma experiência
-                    que apresenta sua oferta com clareza e leva o visitante para
-                    a ação certa.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Reveal>
+      <section className="relative border-b border-border/60">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-52 bg-[radial-gradient(120%_100%_at_0%_0%,hsl(var(--brand-to)/0.55),transparent_50%)] blur-xl" />
+        <div className="mx-auto max-w-6xl px-4 pb-20 pt-16 text-center md:pb-28 md:pt-20">
+          <h1 className="mx-auto max-w-4xl text-balance text-4xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
+            Desenvolvimento que transforma
+            <br />
+            presença digital em <span className="text-[hsl(var(--brand-to))]">resultado de negócio</span>
+          </h1>
+          <p className="mx-auto mt-6 max-w-2xl text-sm leading-8 text-muted-foreground md:text-2xl md:leading-10">
+            Sites, landing pages e sistemas sob medida com estratégia, acabamento premium e foco em conversão.
+          </p>
+          <div className="mt-9 flex flex-col justify-center gap-3 sm:flex-row">
+            <Button asChild variant="premium" size="lg" className="min-h-11 px-8">
+              <Link href="/contact">
+                Solicitar proposta <ArrowRight className="ml-1" />
+              </Link>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="min-h-11 px-8">
+              <Link href="#metodologia">Ver como eu trabalho</Link>
+            </Button>
+          </div>
+          <p className="mt-5 text-xs uppercase tracking-[0.2em] text-muted-foreground">Retorno inicial em até 24h úteis</p>
         </div>
       </section>
 
-      <Reveal className="mx-auto max-w-6xl px-4 pb-4" y={20}>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          {proofPoints.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-[calc(var(--radius)-4px)] border border-border/60 bg-background/70 p-4 backdrop-blur-sm"
-            >
-              <p className="text-base font-semibold tracking-tight">{item.title}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{item.detail}</p>
-            </div>
-          ))}
-        </div>
-      </Reveal>
-
-      <AppleShowcase />
-
-      <Reveal className="mx-auto max-w-6xl px-4 py-14">
-        <div className="flex items-end justify-between gap-6">
-          <div>
-            <h2 className="text-2xl font-semibold tracking-tight">
-              Projetos em destaque
-            </h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Alguns trabalhos que já ajudaram negócios a vender melhor.
-            </p>
-          </div>
-          <Button asChild variant="outline" className="hidden sm:inline-flex">
-            <Link href="/projects">Ver todos</Link>
-          </Button>
+      <Reveal className="mx-auto max-w-6xl px-4 py-16" y={18}>
+        <div id="metodologia" className="text-center">
+          <p className="text-xs uppercase tracking-[0.2em] text-[hsl(var(--brand-to))]">Metodologia</p>
+          <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">
+            Do briefing ao <span className="text-[hsl(var(--brand-to))]">lançamento</span>
+          </h2>
+          <p className="mt-4 text-sm text-muted-foreground md:text-lg">
+            Estrutura clara para entregar um projeto sólido, bonito e orientado a resultado.
+          </p>
         </div>
 
-        <Stagger className="mt-8 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3" delay={0.05}>
-          {featured.slice(0, 6).map((p) => (
-            <StaggerItem key={p.slug}>
-              <ProjectCard project={p} />
+        <Stagger className="mt-10 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+          {methodCards.map(({ eyebrow, title, desc, Icon }) => (
+            <StaggerItem key={title}>
+              <article className="rounded-2xl border border-border/70 bg-card p-6 transition-transform duration-300 hover:-translate-y-1">
+                <p className="text-[11px] uppercase tracking-[0.18em] text-[hsl(var(--brand-to))]">{eyebrow}</p>
+                <div className="mt-4 inline-flex h-12 w-12 items-center justify-center rounded-xl border border-[hsl(var(--brand-to)/0.35)] bg-[hsl(var(--brand-to)/0.1)]">
+                  <Icon className="size-5 text-[hsl(var(--brand-to))]" />
+                </div>
+                <h3 className="mt-4 text-2xl font-semibold tracking-tight">{title}</h3>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">{desc}</p>
+              </article>
             </StaggerItem>
           ))}
         </Stagger>
 
-        <div className="mt-8 sm:hidden">
-          <Button asChild variant="outline" className="w-full">
-            <Link href="/projects">Ver todos os projetos</Link>
+        <div className="mt-9 text-center">
+          <Button asChild variant="outline" size="lg" className="min-h-11 px-8">
+            <Link href="#planos">Ver formatos de projeto</Link>
           </Button>
         </div>
       </Reveal>
 
-      <Reveal className="mx-auto max-w-6xl px-4 py-14">
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <h2 className="text-2xl font-semibold tracking-tight">Serviços</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Soluções para fortalecer sua presença digital e aumentar resultados.
-            </p>
-          </div>
-          <div className="grid gap-4 md:col-span-7 sm:grid-cols-2">
-            {[
-              {
-                title: "Sites institucionais",
-                desc: "Para apresentar sua empresa com autoridade e conquistar novos clientes.",
-              },
-              {
-                title: "Landing pages",
-                desc: "Páginas diretas para campanhas, lançamentos e captação de leads.",
-              },
-              {
-                title: "Sistemas sob medida",
-                desc: "Ferramentas internas para organizar operação, atendimento e vendas.",
-              },
-              {
-                title: "Automações de rotina",
-                desc: "Processos mais rápidos para você e sua equipe ganharem tempo.",
-              },
-            ].map((s) => (
-              <div
-                key={s.title}
-                className="group rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-card to-card/70 p-5 shadow-[0_1px_0_0_rgba(0,0,0,0.04)] transition duration-300 hover:-translate-y-1 hover:border-[hsl(var(--brand-to)/0.45)] hover:shadow-[0_24px_50px_-38px_rgba(0,0,0,0.6)]"
-              >
-                <p className="font-semibold tracking-tight transition group-hover:text-[hsl(var(--brand-to))]">
-                  {s.title}
-                </p>
-                <p className="mt-2 text-sm text-muted-foreground">{s.desc}</p>
-              </div>
-            ))}
-          </div>
+      <Reveal className="mx-auto max-w-6xl px-4 py-16" y={18}>
+        <div id="planos" className="text-center">
+          <h2 className="text-4xl font-semibold tracking-tight md:text-6xl">
+            Formatos para cada <span className="text-[hsl(var(--brand-to))]">momento</span>
+          </h2>
+          <p className="mt-4 text-sm text-muted-foreground md:text-lg">
+            Escolha o escopo ideal para sua fase de negócio.
+          </p>
         </div>
-      </Reveal>
 
-      <Reveal className="mx-auto max-w-6xl px-4 py-14">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
-          <div className="md:col-span-5">
-            <h2 className="text-2xl font-semibold tracking-tight">Processo</h2>
-            <p className="mt-2 text-sm text-muted-foreground">
-              Processo simples, transparente e sem surpresas.
-            </p>
-          </div>
-          <div className="md:col-span-7">
-            <ol className="grid gap-4">
-              {[
-                {
-                  step: "01",
-                  title: "Entendimento do negócio",
-                  desc: "Alinho com você os objetivos, público e prioridades do projeto.",
-                },
-                {
-                  step: "02",
-                  title: "Direção da página",
-                  desc: "Defino mensagem, estrutura e visual para valorizar sua oferta.",
-                },
-                {
-                  step: "03",
-                  title: "Produção",
-                  desc: "Desenvolvo o projeto com foco em qualidade, clareza e resultado.",
-                },
-                {
-                  step: "04",
-                  title: "Publicação e melhorias",
-                  desc: "Entramos no ar e evoluímos com base no retorno real dos clientes.",
-                },
-              ].map((p) => (
-                <li
-                  key={p.step}
-                  className="relative flex gap-4 overflow-hidden rounded-[var(--radius)] border border-border/60 bg-card p-5 transition duration-300 hover:border-[hsl(var(--brand-to)/0.45)]"
-                >
-                  <div className="absolute inset-0 -z-10 bg-[linear-gradient(120deg,transparent_0%,hsl(var(--brand-to)/0.08)_45%,transparent_100%)] opacity-0 transition duration-500 hover:opacity-100" />
-                  <div className="w-10 shrink-0 text-sm font-semibold text-muted-foreground">
-                    {p.step}
-                  </div>
-                  <div>
-                    <p className="font-semibold tracking-tight">{p.title}</p>
-                    <p className="mt-2 text-sm text-muted-foreground">{p.desc}</p>
-                  </div>
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal className="mx-auto max-w-6xl px-4 py-14">
-        <div className="rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/55 to-background p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] md:p-8">
-          <div className="grid gap-8 md:grid-cols-12">
-            <div className="md:col-span-4">
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                Antes e depois
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                Cenário atual e resultado esperado.
-              </h2>
-            </div>
-            <div className="md:col-span-8">
-              <div className="focus-grid space-y-4">
-                {beforeAfter.map((item, index) => (
-                  <div
-                    key={item.title}
-                    className="focus-card rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/80 p-5"
-                  >
-                    <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                      Caso 0{index + 1}
-                    </p>
-                    <p className="mt-2 font-semibold tracking-tight">{item.title}</p>
-                    <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                      <div className="rounded-[calc(var(--radius)-8px)] border border-border/60 bg-muted/45 p-4">
-                        <p className="text-xs font-medium uppercase tracking-[0.1em] text-muted-foreground">
-                          Cenário atual
-                        </p>
-                        <p className="mt-2 text-sm text-muted-foreground">{item.scenario}</p>
-                      </div>
-                      <div className="rounded-[calc(var(--radius)-8px)] border border-[hsl(var(--brand-to)/0.38)] bg-[hsl(var(--brand-to)/0.10)] p-4">
-                        <p className="text-xs font-medium uppercase tracking-[0.1em] text-[hsl(var(--brand-to))]">
-                          Após o projeto
-                        </p>
-                        <p className="mt-2 text-sm text-foreground/90">{item.outcome}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </Reveal>
-
-      <Reveal className="mx-auto max-w-6xl px-4 py-14">
-        <div className="rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/55 to-background p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] md:p-8">
-          <div className="flex items-end justify-between gap-6">
-            <div>
-              <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-                Pacotes
-              </p>
-              <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-                Comece com uma oferta clara.
-              </h2>
-            </div>
-            <Button asChild variant="outline" className="hidden sm:inline-flex">
-              <Link href="/contact">Solicitar proposta</Link>
-            </Button>
-          </div>
-          <div className="focus-grid mt-8 grid gap-4 lg:grid-cols-3">
-            {offers.map((offer, index) => (
-              <div
-                key={offer.name}
-                className={`focus-card group rounded-[calc(var(--radius)-6px)] border p-5 transition duration-300 hover:-translate-y-1 ${
-                  index === 1
-                    ? "border-[hsl(var(--brand-to)/0.45)] bg-[linear-gradient(160deg,hsl(var(--brand-to)/0.18),transparent_60%),hsl(var(--background))] shadow-[0_24px_60px_-40px_hsl(var(--brand-to)/0.75)]"
-                    : "border-border/60 bg-background/80 hover:border-[hsl(var(--brand-to)/0.45)]"
+        <Stagger className="mt-10 grid gap-4 lg:grid-cols-3">
+          {plans.map((plan) => (
+            <StaggerItem key={plan.name}>
+              <article
+                className={`rounded-3xl border p-6 transition-transform duration-300 hover:-translate-y-1 ${
+                  plan.highlighted
+                    ? "border-[hsl(var(--brand-to)/0.8)] bg-[hsl(var(--brand-to)/0.08)]"
+                    : "border-border/70 bg-card"
                 }`}
               >
-                {index === 1 ? (
-                  <p className="mb-3 inline-flex rounded-full border border-[hsl(var(--brand-to)/0.45)] bg-[hsl(var(--brand-to)/0.14)] px-2 py-0.5 text-xs font-medium text-[hsl(var(--brand-to))]">
-                    Mais escolhido
-                  </p>
-                ) : null}
-                <p className="text-sm text-muted-foreground">{offer.ideal}</p>
-                <p className="mt-2 text-2xl font-semibold tracking-tight">{offer.name}</p>
-                <p className="mt-2 text-sm font-medium">{offer.price}</p>
-                <p className="mt-3 text-sm text-muted-foreground">{offer.scope}</p>
-                <Button
-                  asChild
-                  variant={index === 1 ? "premium" : "outline"}
-                  className="mt-5"
-                >
-                  <Link href="/contact">
-                    Quero esse formato <ArrowRight className="ml-1 size-4" />
-                  </Link>
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-3xl font-semibold tracking-tight">{plan.name}</h3>
+                  {plan.highlighted ? (
+                    <span className="rounded-full bg-[hsl(var(--brand-to))] px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-white">
+                      Recomendado
+                    </span>
+                  ) : null}
+                </div>
+                <p className="mt-3 text-sm leading-7 text-muted-foreground">{plan.desc}</p>
+                <ul className="mt-5 space-y-3">
+                  {plan.bullets.map((bullet) => (
+                    <li key={bullet} className="flex gap-2 text-sm text-muted-foreground">
+                      <span className="mt-1.5 inline-block h-1.5 w-1.5 rounded-full bg-[hsl(var(--brand-to))]" />
+                      {bullet}
+                    </li>
+                  ))}
+                </ul>
+                <Button className="mt-6 min-h-11 w-full" variant={plan.highlighted ? "premium" : "outline"}>
+                  Selecionar
                 </Button>
+              </article>
+            </StaggerItem>
+          ))}
+        </Stagger>
+      </Reveal>
+
+      <Reveal className="mx-auto grid max-w-6xl gap-6 px-4 py-16 lg:grid-cols-2" y={18}>
+        <div>
+          <h2 className="text-balance text-4xl font-semibold tracking-tight md:text-5xl">
+            Preencha o formulário e avance para o próximo nível
+          </h2>
+          <div className="mt-7 space-y-3">
+            {[
+              "Etapa 1 • Entendimento do cenário",
+              "Etapa 2 • Diagnóstico e direcionamento",
+              "Etapa 3 • Proposta com escopo claro",
+            ].map((item, index) => (
+              <div key={item} className="rounded-2xl border border-border/70 bg-card p-4 text-sm">
+                <div className="flex items-center gap-3">
+                  <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-[hsl(var(--brand-to)/0.18)] text-[hsl(var(--brand-to))]">
+                    {index + 1}
+                  </span>
+                  <p>{item}</p>
+                </div>
               </div>
             ))}
           </div>
-          <div className="mt-6 sm:hidden">
-            <Button asChild variant="premium" className="w-full">
-              <Link href="/contact">Solicitar proposta</Link>
+        </div>
+
+        <div className="rounded-3xl border border-[hsl(var(--brand-to)/0.45)] bg-card p-5">
+          <form className="space-y-3">
+            {["Seu nome completo", "Seu melhor e-mail", "Telefone / WhatsApp", "Nome da empresa"].map((field) => (
+              <input
+                key={field}
+                placeholder={field}
+                className="h-12 w-full rounded-xl border border-[hsl(var(--brand-to)/0.5)] bg-[hsl(var(--background)/0.6)] px-4 text-sm outline-none placeholder:text-muted-foreground focus:ring-2 focus:ring-[hsl(var(--brand-to)/0.45)]"
+              />
+            ))}
+            <Button className="mt-2 min-h-12 w-full" variant="premium" size="lg">
+              Solicitar contato
             </Button>
-          </div>
+            <p className="pt-1 text-center text-xs text-muted-foreground">Retorno em até 24h • 100% confidencial</p>
+          </form>
         </div>
       </Reveal>
 
-      <Reveal className="mx-auto max-w-6xl px-4 py-14">
-        <div className="grid gap-8 rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/55 to-background p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] md:grid-cols-12 md:p-8">
-          <div className="md:col-span-4">
-            <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-              Dúvidas frequentes
-            </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-4xl">
-              Tudo o que você precisa saber para começar.
-            </h2>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground">
-              Se sua dúvida não estiver aqui, me chama no contato que eu te
-              respondo com cenário real para o seu caso.
-            </p>
-          </div>
-          <div className="md:col-span-8">
-            <div className="divide-y divide-border/60 rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background/80">
-              {faqs.map((item) => (
-                <details key={item.q} className="group px-5 py-4">
-                  <summary className="cursor-pointer list-none pr-6 font-medium tracking-tight">
-                    {item.q}
-                  </summary>
-                  <p className="mt-3 text-sm leading-7 text-muted-foreground">{item.a}</p>
-                </details>
-              ))}
-            </div>
-          </div>
+      <Reveal className="mx-auto max-w-5xl px-4 py-16" y={18}>
+        <div className="text-center">
+          <h2 className="text-4xl font-semibold tracking-tight md:text-6xl">
+            Perguntas <span className="text-[hsl(var(--brand-to))]">frequentes</span>
+          </h2>
+          <p className="mt-3 text-sm text-muted-foreground md:text-lg">
+            Respostas rápidas sobre escopo, prazo e processo.
+          </p>
         </div>
-      </Reveal>
 
-      <Reveal className="mx-auto max-w-6xl px-4 py-14" y={28}>
-        <div className="relative overflow-hidden rounded-[var(--radius)] border border-border/60 bg-gradient-to-r from-[hsl(var(--brand-to)/0.18)] via-muted/50 to-background p-8 md:p-10">
-          <div className="absolute -right-10 -top-20 h-52 w-52 rounded-full bg-[hsl(var(--brand-to)/0.18)] blur-3xl animate-[float_8s_ease-in-out_infinite]" />
-          <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h2 className="text-2xl font-semibold tracking-tight">
-                Pronto para tirar seu projeto do papel?
-              </h2>
-              <p className="mt-2 max-w-2xl text-sm text-muted-foreground">
-                Me conte seu objetivo e eu te mostro o melhor caminho para ter
-                uma página que passe confiança e traga oportunidades reais.
+        <div className="mt-8 space-y-3">
+          {faqs.map((item) => (
+            <details key={item.question} className="group rounded-xl border border-border/70 bg-card px-5 py-4">
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left text-sm md:text-base">
+                <span>{item.question}</span>
+                <ChevronDown className="size-4 shrink-0 text-muted-foreground transition-transform duration-200 group-open:rotate-180" />
+              </summary>
+              <p className="mt-3 border-t border-border/60 pt-3 text-sm leading-7 text-muted-foreground">
+                {item.answer}
               </p>
-            </div>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <Button asChild variant="premium" size="lg" className="shadow-[0_18px_45px_-24px_hsl(var(--brand-to)/0.85)]">
-                <Link href="/contact">
-                  Vamos conversar <ArrowRight className="ml-1" />
-                </Link>
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <Link href="/projects">Ver projetos</Link>
-              </Button>
-            </div>
-          </div>
+            </details>
+          ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <Button asChild variant="premium" size="lg" className="min-h-11 px-8">
+            <Link href="/contact">Falar sobre meu projeto</Link>
+          </Button>
         </div>
       </Reveal>
 
-      <div className="fixed inset-x-4 bottom-4 z-40 sm:hidden">
-        <Button asChild variant="premium" size="lg" className="w-full shadow-[0_20px_45px_-25px_hsl(var(--brand-to)/0.8)]">
-          <Link href="/contact">
-            Quero orçamento <ArrowRight className="ml-1 size-4" />
-          </Link>
-        </Button>
-      </div>
+      <Reveal className="mx-auto max-w-6xl px-4 py-16" y={18}>
+        <div className="text-center">
+          <h2 className="text-4xl font-semibold tracking-tight md:text-6xl">
+            Vamos construir seu <span className="text-[hsl(var(--brand-to))]">resultado?</span>
+          </h2>
+          <p className="mt-3 text-sm text-muted-foreground md:text-lg">Escolha o melhor canal para começarmos.</p>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-12">
+          <article className="rounded-2xl border border-[hsl(var(--brand-to)/0.4)] bg-[linear-gradient(135deg,hsl(var(--brand-to)/0.14),hsl(var(--card))_45%)] p-6 md:col-span-7">
+            <p className="text-[11px] uppercase tracking-[0.18em] text-[hsl(var(--brand-to))]">Canal prioritário</p>
+            <div className="mt-3 flex items-center gap-2">
+              <Phone className="size-5 text-[hsl(var(--brand-to))]" />
+              <h3 className="text-3xl font-semibold tracking-tight">WhatsApp</h3>
+            </div>
+            <p className="mt-4 max-w-xl text-sm leading-7 text-muted-foreground">
+              Resposta mais rápida para alinhar escopo, prazo e próximos passos do projeto.
+            </p>
+            <Button asChild variant="premium" className="mt-6 min-h-11 px-7">
+              <a href="https://wa.me/5579999191125" target="_blank" rel="noreferrer">
+                Chamar no WhatsApp
+              </a>
+            </Button>
+          </article>
+
+          <div className="grid gap-4 md:col-span-5">
+            <article className="rounded-2xl border border-border/70 bg-card p-5">
+              <div className="flex items-center gap-2">
+                <Instagram className="size-4 text-[hsl(var(--brand-to))]" />
+                <h3 className="text-xl font-semibold tracking-tight">Instagram</h3>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">@guga_andrade__</p>
+              <a
+                href="https://instagram.com/guga_andrade__"
+                target="_blank"
+                rel="noreferrer"
+                className="mt-5 inline-block text-xs uppercase tracking-[0.14em] text-[hsl(var(--brand-to))]"
+              >
+                Ver perfil
+              </a>
+            </article>
+
+            <article className="rounded-2xl border border-border/70 bg-card p-5">
+              <div className="flex items-center gap-2">
+                <Mail className="size-4 text-[hsl(var(--brand-to))]" />
+                <h3 className="text-xl font-semibold tracking-tight">E-mail</h3>
+              </div>
+              <p className="mt-2 text-sm text-muted-foreground">dev.gustavo.contato@gmail.com</p>
+              <a
+                href="mailto:dev.gustavo.contato@gmail.com"
+                className="mt-5 inline-block text-xs uppercase tracking-[0.14em] text-[hsl(var(--brand-to))]"
+              >
+                Enviar e-mail
+              </a>
+            </article>
+          </div>
+        </div>
+      </Reveal>
     </div>
   );
 }

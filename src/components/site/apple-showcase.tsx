@@ -4,55 +4,53 @@ import { motion } from "framer-motion";
 
 const slides = [
   {
-    title: "Mensagem clara em 5 segundos",
-    desc: "Seu cliente entende rapidamente o que você faz, para quem é e por que escolher sua empresa.",
     label: "Clareza",
+    title: "Proposta de valor entendida em segundos",
+    desc: "Hero, prova e CTA alinhados para o visitante certo identificar seu diferencial rapidamente.",
   },
   {
-    title: "Visual premium com cara de marca forte",
-    desc: "Direção visual limpa, refinada e memorável para aumentar percepção de valor.",
-    label: "Presença",
+    label: "Autoridade",
+    title: "Visual com assinatura, não template",
+    desc: "Composição editorial e acabamento premium para sustentar preço e posicionamento.",
   },
   {
-    title: "Fluxo que leva para a ação",
-    desc: "Estrutura de página focada em conduzir o visitante para contato, proposta ou compra.",
     label: "Conversão",
+    title: "Ritmo de leitura que vira ação",
+    desc: "Elementos de decisão distribuídos ao longo do scroll para reduzir fricção no contato.",
   },
 ];
 
 export function AppleShowcase() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-14">
-      <div className="relative overflow-hidden rounded-[28px] border border-border/60 bg-gradient-to-b from-background/95 via-background/90 to-muted/35 p-6 shadow-[0_35px_120px_-72px_rgba(0,0,0,0.7)] backdrop-blur-xl md:p-10">
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_15%_0%,hsl(var(--brand-to)/0.18),transparent_42%)]" />
-        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_90%_75%,hsl(var(--brand-from)/0.12),transparent_40%)]" />
+    <section className="mx-auto max-w-6xl px-4 py-10">
+      <div className="relative overflow-hidden rounded-[32px] border border-border/60 bg-gradient-to-b from-background/95 via-background/90 to-muted/40 p-6 md:p-10">
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_8%_15%,hsl(var(--brand-to)/0.22),transparent_38%)]" />
+        <div className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(circle_at_85%_100%,hsl(var(--brand-from)/0.14),transparent_42%)]" />
 
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground/90">
-          Experiência premium
-        </p>
-        <h2 className="mt-4 max-w-3xl text-3xl font-semibold leading-[1.06] tracking-tight md:text-4xl lg:text-5xl">
-          Clareza, presença e conversão em uma página elegante.
-        </h2>
-        <div className="mt-8 grid gap-4 md:mt-10 md:grid-cols-3">
-          {slides.map((slide, index) => (
-            <motion.article
-              key={slide.label}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.3 }}
-              transition={{ duration: 0.55, ease: "easeOut", delay: index * 0.08 }}
-              whileHover={{ y: -6, scale: 1.01 }}
-              className="rounded-3xl border border-white/25 bg-white/[0.06] p-6 shadow-[0_30px_90px_-60px_rgba(0,0,0,0.9)] backdrop-blur-2xl md:p-7"
-            >
-              <p className="text-xs font-medium uppercase tracking-[0.18em] text-muted-foreground">
-                {slide.label}
-              </p>
-              <p className="mt-3 text-xl font-semibold tracking-tight md:text-2xl">
-                {slide.title}
-              </p>
-              <p className="mt-3 text-sm text-muted-foreground md:text-base">{slide.desc}</p>
-            </motion.article>
-          ))}
+        <div className="grid gap-8 lg:grid-cols-12 lg:gap-6">
+          <div className="lg:col-span-5">
+            <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">Arquitetura da experiência</p>
+            <h2 className="font-display mt-3 text-3xl font-semibold leading-tight tracking-tight md:text-5xl">
+              Uma página de alta performance comercial precisa de direção, não de efeitos aleatórios.
+            </h2>
+          </div>
+
+          <div className="grid gap-4 lg:col-span-7">
+            {slides.map((slide, index) => (
+              <motion.article
+                key={slide.label}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.35 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: index * 0.08 }}
+                className="rounded-[calc(var(--radius)+2px)] border border-border/60 bg-background/75 p-5 backdrop-blur-sm"
+              >
+                <p className="text-xs uppercase tracking-[0.16em] text-muted-foreground">{slide.label}</p>
+                <p className="mt-2 text-xl font-semibold tracking-tight">{slide.title}</p>
+                <p className="mt-2 text-sm leading-7 text-muted-foreground">{slide.desc}</p>
+              </motion.article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

@@ -58,7 +58,7 @@ export default function AdminLoginForm() {
   };
 
   return (
-    <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-[var(--radius)] border border-border/60 bg-card p-6 shadow-[0_24px_120px_-70px_rgba(0,0,0,0.75)]">
+    <div className="relative mx-auto w-full max-w-md overflow-hidden rounded-2xl border border-border/70 bg-card p-6 shadow-[0_24px_120px_-70px_rgba(0,0,0,0.75)]">
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute left-1/2 top-[-120px] h-[220px] w-[380px] -translate-x-1/2 rounded-full bg-gradient-to-r from-[hsl(var(--brand-from)/0.25)] via-[hsl(var(--brand-to)/0.15)] to-transparent blur-3xl" />
         <div className="absolute bottom-[-140px] right-[-140px] h-[240px] w-[240px] rounded-full bg-[hsl(var(--brand-to)/0.15)] blur-3xl" />

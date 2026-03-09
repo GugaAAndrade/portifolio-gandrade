@@ -3,7 +3,6 @@ import "server-only";
 import { seedProjects } from "@/lib/data/seed";
 import { adminDb } from "@/lib/firebase/admin";
 import type { Project } from "@/types/project";
-import { cache } from "react";
 
 function mapDoc(id: string, data: Record<string, unknown>): Project {
   return {
@@ -25,15 +24,15 @@ function mapDoc(id: string, data: Record<string, unknown>): Project {
   };
 }
 
-export const getProjects = cache(async (): Promise<Project[]> => {
+export async function getProjects(): Promise<Project[]> {
   const db = adminDb();
   if (!db) return seedProjects;
 
   const snap = await db.collection("projects").orderBy("createdAt", "desc").get();
   return snap.docs.map((d) => mapDoc(d.id, d.data() as Record<string, unknown>));
-});
+}
 
-export const getFeaturedProjects = cache(async (): Promise<Project[]> => {
+export async function getFeaturedProjects(): Promise<Project[]> {
   const db = adminDb();
   if (!db) return seedProjects.filter((p) => p.featured).slice(0, 6);
 
@@ -44,21 +43,18 @@ export const getFeaturedProjects = cache(async (): Promise<Project[]> => {
     .limit(6)
     .get();
   return snap.docs.map((d) => mapDoc(d.id, d.data() as Record<string, unknown>));
-});
+}
 
-export const getProjectBySlug = cache(
-  async (slug: string): Promise<Project | null> => {
-    const db = adminDb();
-    if (!db) return seedProjects.find((p) => p.slug === slug) ?? null;
+export async function getProjectBySlug(slug: string): Promise<Project | null> {
+  const db = adminDb();
+  if (!db) return seedProjects.find((p) => p.slug === slug) ?? null;
 
-    const snap = await db
-      .collection("projects")
-      .where("slug", "==", slug)
-      .limit(1)
-      .get();
-    const doc = snap.docs[0];
-    if (!doc) return null;
-    return mapDoc(doc.id, doc.data() as Record<string, unknown>);
-  },
-);
-
+  const snap = await db
+    .collection("projects")
+    .where("slug", "==", slug)
+    .limit(1)
+    .get();
+  const doc = snap.docs[0];
+  if (!doc) return null;
+  return mapDoc(doc.id, doc.data() as Record<string, unknown>);
+}

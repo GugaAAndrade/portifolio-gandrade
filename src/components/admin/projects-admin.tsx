@@ -198,12 +198,29 @@ export function ProjectsAdmin() {
       setUploading(false);
     }
   };
+  
+  const removeCover = () => {
+    form.setValue("coverImage", null, { shouldValidate: true, shouldDirty: true });
+  };
+
+  const removeGalleryImage = (index: number) => {
+    const current = form.getValues("galleryImages") ?? [];
+    form.setValue(
+      "galleryImages",
+      current.filter((_, i) => i !== index),
+      { shouldValidate: true, shouldDirty: true },
+    );
+  };
+
+  const coverImage = form.watch("coverImage");
+  const galleryImages = form.watch("galleryImages") ?? [];
 
   return (
     <div>
       <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <h1 className="text-2xl font-semibold tracking-tight">Projetos</h1>
+          <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Gestão</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">Projetos</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             Adicione, edite e publique projetos com imagens, stack e links.
           </p>
@@ -214,8 +231,8 @@ export function ProjectsAdmin() {
         </Button>
       </div>
 
-      <div className="mt-8 rounded-[var(--radius)] border border-border/60 bg-card">
-        <div className="flex items-center justify-between border-b border-border/50 p-4">
+      <div className="mt-8 rounded-2xl border border-border/70 bg-card">
+        <div className="flex items-center justify-between border-b border-border/60 p-4">
           <p className="text-sm font-medium">
             {projectsQuery.data?.length ?? 0} projeto(s)
           </p>
@@ -224,7 +241,7 @@ export function ProjectsAdmin() {
           ) : null}
         </div>
 
-        <div className="divide-y divide-border/50">
+        <div className="divide-y divide-border/60">
           {(projectsQuery.data ?? []).map((p) => (
             <div key={p.id} className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between">
               <div className="min-w-0">
@@ -427,15 +444,59 @@ export function ProjectsAdmin() {
                 </label>
               </div>
 
-              {form.watch("coverImage") ? (
-                <p className="text-xs text-muted-foreground break-all">
-                  Capa: {form.watch("coverImage")}
-                </p>
+              {coverImage ? (
+                <div className="space-y-2">
+                  <p className="text-xs text-muted-foreground">Prévia da capa</p>
+                  <div className="relative w-full max-w-xs overflow-hidden rounded-[calc(var(--radius)-6px)] border border-border/60 bg-muted/20">
+                    <img
+                      src={coverImage}
+                      alt="Prévia da capa"
+                      className="h-36 w-full object-cover"
+                    />
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      className="absolute right-2 top-2"
+                      onClick={removeCover}
+                    >
+                      <Trash2 className="mr-1 size-3.5" />
+                      Remover
+                    </Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground break-all">{coverImage}</p>
+                </div>
               ) : null}
-              {(form.watch("galleryImages") ?? []).length ? (
-                <p className="text-xs text-muted-foreground">
-                  Galeria: {(form.watch("galleryImages") ?? []).length} imagem(ns)
-                </p>
+
+              {galleryImages.length ? (
+                <div className="space-y-2">
+                  <p className="text-xs text-muted-foreground">
+                    Galeria: {galleryImages.length} imagem(ns)
+                  </p>
+                  <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
+                    {galleryImages.map((url, index) => (
+                      <div
+                        key={`${url}-${index}`}
+                        className="relative overflow-hidden rounded-[calc(var(--radius)-6px)] border border-border/60 bg-muted/20"
+                      >
+                        <img
+                          src={url}
+                          alt={`Imagem ${index + 1} da galeria`}
+                          className="h-28 w-full object-cover"
+                        />
+                        <Button
+                          type="button"
+                          variant="destructive"
+                          size="sm"
+                          className="absolute right-2 top-2"
+                          onClick={() => removeGalleryImage(index)}
+                        >
+                          <Trash2 className="size-3.5" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               ) : null}
             </div>
 

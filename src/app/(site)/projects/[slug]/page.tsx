@@ -1,18 +1,22 @@
-import { ExternalLink, Github, MessageCircle } from "lucide-react";
+import { CalendarDays, ExternalLink, Github, Layers3, MessageCircle } from "lucide-react";
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import { ProjectGallery } from "@/components/projects/project-gallery";
 import { Reveal } from "@/components/site/reveal";
+import { Stagger, StaggerItem } from "@/components/site/reveal";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getProjectBySlug, getProjects } from "@/lib/db/projects";
 import { absoluteUrl, getSiteUrl } from "@/lib/seo";
 
+export const dynamic = "force-dynamic";
+
 export async function generateStaticParams() {
   const projects = await getProjects();
-  return projects.map((p) => ({ slug: p.slug }));
+  return projects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({
@@ -22,6 +26,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
+
   if (!project) {
     return {
       title: "Projeto não encontrado",
@@ -33,7 +38,7 @@ export async function generateMetadata({
   const image = project.coverImage ? absoluteUrl(project.coverImage) : absoluteUrl("/icon");
 
   return {
-    title: `${project.title}`,
+    title: project.title,
     description: project.shortDescription,
     alternates: { canonical },
     keywords: [...project.tags, ...project.stack],
@@ -61,15 +66,26 @@ export default async function ProjectDetailPage({
   const { slug } = await params;
   const project = await getProjectBySlug(slug);
   if (!project) notFound();
+
+  const liveUrl =
+    typeof project.liveUrl === "string" && project.liveUrl.trim().length > 0
+      ? project.liveUrl
+      : undefined;
+  const repoUrl =
+    typeof project.repoUrl === "string" && project.repoUrl.trim().length > 0
+      ? project.repoUrl
+      : undefined;
+
   const projectUrl = absoluteUrl(`/projects/${project.slug}`);
   const projectImage = project.coverImage ? absoluteUrl(project.coverImage) : absoluteUrl("/icon");
+
   const projectJsonLd = {
     "@context": "https://schema.org",
     "@type": "CreativeWork",
     name: project.title,
     description: project.shortDescription,
     url: projectUrl,
-    image: [projectImage, ...project.galleryImages.map((img) => absoluteUrl(img))],
+    image: [projectImage, ...project.galleryImages.map((image) => absoluteUrl(image))],
     datePublished: new Date(project.createdAt).toISOString(),
     author: {
       "@type": "Person",
@@ -78,98 +94,171 @@ export default async function ProjectDetailPage({
     },
   };
 
+  const paragraphs = project.fullDescription
+    .split(/\n{2,}/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  const images = [project.coverImage, ...project.galleryImages].filter(Boolean) as string[];
+
+  const year = new Intl.DateTimeFormat("pt-BR", { year: "numeric" }).format(
+    new Date(project.createdAt),
+  );
+
   return (
-    <div className="relative">
+    <div className="relative overflow-hidden pb-14">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
       />
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[320px] bg-[radial-gradient(circle_at_top,hsl(var(--brand-to)/0.2),transparent_60%)]" />
-      <Reveal className="mx-auto max-w-6xl px-4 py-14" y={24}>
-        <div className="grid grid-cols-1 gap-10 rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/60 to-background p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] lg:grid-cols-12 md:p-8">
-          <div className="lg:col-span-8">
-            <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
-              Projeto em destaque
-            </p>
-            <h1 className="mt-3 text-balance text-4xl font-semibold tracking-tight md:text-5xl">
-              {project.title}
-            </h1>
-            <p className="mt-4 text-sm leading-7 text-muted-foreground md:text-base">
-              {project.shortDescription}
-            </p>
 
-            <div className="mt-8">
-              <ProjectGallery
-                images={[project.coverImage, ...project.galleryImages].filter(
-                  Boolean,
-                ) as string[]}
-                title={project.title}
-              />
-            </div>
+      <div className="pointer-events-none absolute inset-0 -z-10 soft-vignette" />
+      <div className="pointer-events-none absolute inset-0 -z-10 story-grid opacity-25" />
 
-            <div className="mt-10 space-y-8">
-              <div>
-                <h2 className="text-lg font-semibold tracking-tight">
-                  Visão geral
-                </h2>
-                <p className="mt-3 whitespace-pre-line text-sm leading-7 text-muted-foreground">
-                  {project.fullDescription}
-                </p>
-              </div>
-
-              <div>
-                <h2 className="text-lg font-semibold tracking-tight">Stack</h2>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {project.stack.map((s) => (
-                    <Badge key={s} variant="muted">
-                      {s}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <h2 className="text-lg font-semibold tracking-tight">Tags</h2>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  {project.tags.map((t) => (
-                    <Badge key={t}>{t}</Badge>
-                  ))}
-                </div>
-              </div>
-            </div>
+      <Reveal className="mx-auto max-w-6xl px-4 pt-10" y={24}>
+        <section className="p-1 md:p-2">
+          <div className="flex flex-wrap gap-2">
+            <Badge variant="premium">Projeto real</Badge>
+            <Badge variant="muted">{year}</Badge>
           </div>
 
-          <aside className="lg:col-span-4">
-            <div className="sticky top-20 rounded-[calc(var(--radius)-2px)] border border-border/60 bg-background/75 p-5 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] backdrop-blur-sm">
-              <p className="text-sm font-semibold tracking-tight">
-                Gostou desse padrão?
-              </p>
-              <p className="mt-2 text-sm text-muted-foreground">
-                Eu posso aplicar esse nível de acabamento no seu projeto.
-                Vamos alinhar escopo, prazo e próximos passos.
-              </p>
+          <h1 className="mt-4 max-w-4xl text-balance text-4xl font-semibold leading-[1.04] tracking-tight md:text-6xl">
+            {project.title}
+          </h1>
 
-              <div className="mt-5 flex flex-col gap-3">
-                <Button asChild variant="premium">
-                  <Link href="/contact">
-                    Vamos conversar <MessageCircle className="ml-1 size-4" />
-                  </Link>
-                </Button>
-                {project.liveUrl ? (
-                  <Button asChild variant="outline">
-                    <a href={project.liveUrl} target="_blank" rel="noreferrer">
-                      Ver ao vivo <ExternalLink className="ml-1 size-4" />
-                    </a>
-                  </Button>
-                ) : null}
-                {project.repoUrl ? (
-                  <Button asChild variant="outline">
-                    <a href={project.repoUrl} target="_blank" rel="noreferrer">
-                      Repositório <Github className="ml-1 size-4" />
-                    </a>
-                  </Button>
-                ) : null}
+          <p className="mt-4 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
+            {project.shortDescription}
+          </p>
+
+          <Stagger className="mt-6 grid gap-3 md:grid-cols-3">
+            {[
+              { label: "Entregáveis visuais", value: String(images.length) },
+              { label: "Stack utilizada", value: String(project.stack.length) },
+              { label: "Escopo", value: "Design, engenharia e conversão" },
+            ].map((item) => (
+              <StaggerItem key={item.label}>
+                <article className="rounded-2xl border border-border/70 bg-card p-5 transition-transform duration-300 hover:-translate-y-1">
+                  <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">{item.label}</p>
+                  <p className="mt-1 text-2xl font-semibold tracking-tight">{item.value}</p>
+                </article>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </section>
+      </Reveal>
+
+      <Reveal className="mx-auto mt-8 max-w-6xl px-4" y={20}>
+        <div className="grid gap-8 lg:grid-cols-12">
+          <section className="space-y-6 lg:col-span-8">
+            {project.coverImage ? (
+              <article className="overflow-hidden rounded-2xl border border-border/70 bg-card">
+                <div className="relative aspect-[16/9] w-full">
+                  <Image
+                    src={project.coverImage}
+                    alt={project.title}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 66vw"
+                    priority
+                  />
+                </div>
+              </article>
+            ) : null}
+
+            <article className="rounded-2xl border border-border/70 bg-card p-6">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                <CalendarDays className="size-4" />
+                Narrativa do projeto
               </div>
+
+              <div className="mt-4 space-y-4">
+                {(paragraphs.length ? paragraphs : [project.fullDescription]).map((paragraph, index) => (
+                  <p
+                    key={`${project.slug}-paragraph-${index}`}
+                    className="text-sm leading-7 text-muted-foreground md:text-base"
+                  >
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+            </article>
+
+            <article className="rounded-2xl border border-border/70 bg-card p-6">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-muted-foreground">
+                <Layers3 className="size-4" />
+                Galeria do projeto
+              </div>
+              <div className="mt-4">
+                <ProjectGallery images={images} title={project.title} />
+              </div>
+            </article>
+
+            <Stagger className="grid gap-4 md:grid-cols-2">
+              <StaggerItem>
+                <article className="rounded-2xl border border-border/70 bg-card p-5 transition-transform duration-300 hover:-translate-y-1">
+                  <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Tecnologias</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {project.stack.map((item) => (
+                      <Badge key={item} variant="muted">
+                        {item}
+                      </Badge>
+                    ))}
+                  </div>
+                </article>
+              </StaggerItem>
+
+              <StaggerItem>
+                <article className="rounded-2xl border border-border/70 bg-card p-5 transition-transform duration-300 hover:-translate-y-1">
+                  <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Objetivo</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {project.tags.map((item) => (
+                      <Badge key={item}>{item}</Badge>
+                    ))}
+                  </div>
+                </article>
+              </StaggerItem>
+            </Stagger>
+          </section>
+
+          <aside className="lg:col-span-4">
+            <div className="sticky top-24 space-y-4">
+              <article className="rounded-2xl border border-border/70 bg-card p-5 transition-transform duration-300 hover:-translate-y-1">
+                <p className="text-xs uppercase tracking-[0.14em] text-muted-foreground">Próximo passo</p>
+                <h2 className="mt-2 text-xl font-semibold tracking-tight">
+                  Vamos levar esse <span className="text-[hsl(var(--brand-to))]">padrão</span> para o seu projeto?
+                </h2>
+                <p className="mt-3 text-sm leading-7 text-foreground/80">
+                  Definimos escopo, prioridade e cronograma para construir uma presença digital com impacto real.
+                </p>
+
+                <div className="mt-5 flex flex-col gap-3">
+                  <Button asChild variant="premium" className="min-h-11">
+                    <Link href="/contact">
+                      Falar sobre projeto <MessageCircle className="ml-1 size-4" />
+                    </Link>
+                  </Button>
+
+                  <Button asChild variant="outline" className="min-h-11">
+                    <Link href="/projects">Ver outros projetos</Link>
+                  </Button>
+
+                  {liveUrl ? (
+                    <Button asChild variant="outline" className="min-h-11">
+                      <a href={liveUrl} target="_blank" rel="noreferrer">
+                        Ver versão online <ExternalLink className="ml-1 size-4" />
+                      </a>
+                    </Button>
+                  ) : null}
+
+                  {repoUrl ? (
+                    <Button asChild variant="outline" className="min-h-11">
+                      <a href={repoUrl} target="_blank" rel="noreferrer">
+                        Ver repositório <Github className="ml-1 size-4" />
+                      </a>
+                    </Button>
+                  ) : null}
+                </div>
+              </article>
             </div>
           </aside>
         </div>

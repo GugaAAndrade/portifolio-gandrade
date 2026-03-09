@@ -5,111 +5,143 @@ import { Search, X } from "lucide-react";
 import * as React from "react";
 
 import { ProjectCard } from "@/components/projects/project-card";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { Project } from "@/types/project";
 
-function uniqTags(projects: Project[]) {
-  const set = new Set<string>();
-  for (const p of projects) for (const t of p.tags) set.add(t);
-  return Array.from(set).sort((a, b) => a.localeCompare(b));
+function normalizeToken(value: string) {
+  return value
+    .normalize("NFD")
+    .replace(/\p{Diacritic}/gu, "")
+    .toLowerCase()
+    .trim();
+}
+
+function buildTagFacets(projects: Project[]) {
+  const map = new Map<string, { label: string; count: number }>();
+
+  for (const project of projects) {
+    for (const tag of project.tags) {
+      const key = normalizeToken(tag);
+      const current = map.get(key);
+      if (current) {
+        current.count += 1;
+      } else {
+        map.set(key, { label: tag, count: 1 });
+      }
+    }
+  }
+
+  return Array.from(map.entries())
+    .map(([key, value]) => ({ key, ...value }))
+    .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label));
 }
 
 export function ProjectsExplorer({ projects }: { projects: Project[] }) {
-  const tags = React.useMemo(() => uniqTags(projects), [projects]);
-  const [q, setQ] = React.useState("");
+  const tags = React.useMemo(() => buildTagFacets(projects), [projects]);
+  const [query, setQuery] = React.useState("");
   const [activeTag, setActiveTag] = React.useState<string | null>(null);
 
   const filtered = React.useMemo(() => {
-    const query = q.trim().toLowerCase();
-    return projects.filter((p) => {
-      const matchesQuery =
-        !query ||
-        p.title.toLowerCase().includes(query) ||
-        p.shortDescription.toLowerCase().includes(query) ||
-        p.tags.some((t) => t.toLowerCase().includes(query)) ||
-        p.stack.some((s) => s.toLowerCase().includes(query));
-      const matchesTag = !activeTag || p.tags.includes(activeTag);
-      return matchesQuery && matchesTag;
+    const q = normalizeToken(query);
+    return projects.filter((project) => {
+      const byTag = !activeTag || project.tags.some((tag) => normalizeToken(tag) === activeTag);
+      const byQuery =
+        !q ||
+        normalizeToken(project.title).includes(q) ||
+        normalizeToken(project.shortDescription).includes(q) ||
+        project.tags.some((tag) => normalizeToken(tag).includes(q)) ||
+        project.stack.some((stack) => normalizeToken(stack).includes(q));
+      return byTag && byQuery;
     });
-  }, [projects, q, activeTag]);
+  }, [projects, query, activeTag]);
+
+  const activeTagLabel = activeTag ? tags.find((tag) => tag.key === activeTag)?.label ?? null : null;
 
   return (
-    <div className="mt-8">
-      <div className="rounded-[calc(var(--radius)-4px)] border border-border/60 bg-background/75 p-4 backdrop-blur-sm md:p-5">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div className="relative w-full md:max-w-md">
-          <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Buscar por nome, stack ou tag…"
-            className="pl-9"
-          />
-        </div>
+    <div>
+      <div className="rounded-2xl border border-border/70 bg-card p-5 md:p-6">
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,360px)_1fr] lg:items-center">
+          <div className="relative">
+            <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              value={query}
+              onChange={(event) => setQuery(event.target.value)}
+              placeholder="Buscar por nome, tecnologia ou tag"
+              className="h-11 bg-background pl-9"
+            />
+          </div>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <Button
-            type="button"
-            variant={activeTag ? "outline" : "secondary"}
-            size="sm"
-            onClick={() => setActiveTag(null)}
-          >
-            Todos
-          </Button>
-          {tags.slice(0, 10).map((t) => {
-            const active = activeTag === t;
-            return (
-              <button
-                key={t}
-                type="button"
-                onClick={() => setActiveTag(active ? null : t)}
-                className="focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full"
-              >
-                <Badge variant={active ? "premium" : "muted"}>{t}</Badge>
-              </button>
-            );
-          })}
-          {(activeTag || q.trim()) && (
+          <div className="-mx-1 flex items-center gap-2 overflow-x-auto px-1 pb-1">
             <Button
               type="button"
-              variant="ghost"
               size="sm"
-              onClick={() => {
-                setQ("");
-                setActiveTag(null);
-              }}
+              className="min-h-10 shrink-0"
+              variant={activeTag ? "outline" : "secondary"}
+              onClick={() => setActiveTag(null)}
             >
-              Limpar <X className="ml-1 size-4" />
+              Todos
+              <span className="ml-1 rounded-full bg-foreground/10 px-2 py-0.5 text-[10px]">
+                {projects.length}
+              </span>
             </Button>
-          )}
+
+            {tags.slice(0, 16).map((tag) => {
+              const active = activeTag === tag.key;
+              return (
+                <button
+                  key={tag.key}
+                  type="button"
+                  onClick={() => setActiveTag(active ? null : tag.key)}
+                  className={`shrink-0 rounded-full border px-3 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+                    active
+                      ? "border-[hsl(var(--brand-to)/0.7)] bg-[hsl(var(--brand-to)/0.15)] text-[hsl(var(--brand-to))]"
+                      : "border-border/70 bg-card text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {tag.label}
+                  <span className="ml-1.5 rounded-full bg-foreground/10 px-1.5 py-0.5 text-[10px]">
+                    {tag.count}
+                  </span>
+                </button>
+              );
+            })}
+
+            {(activeTag || query.trim()) && (
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="min-h-10 shrink-0"
+                onClick={() => {
+                  setQuery("");
+                  setActiveTag(null);
+                }}
+              >
+                Limpar <X className="ml-1 size-4" />
+              </Button>
+            )}
+          </div>
         </div>
       </div>
-      </div>
 
-      <div className="mt-8">
-        <p className="text-sm text-muted-foreground">
-          {filtered.length} projeto(s)
-          {activeTag ? ` • tag: ${activeTag}` : ""}
-        </p>
+      <div className="mt-5 text-sm text-muted-foreground">
+        {filtered.length} projeto(s)
+        {activeTagLabel ? ` • filtro: ${activeTagLabel}` : ""}
       </div>
 
       <AnimatePresence mode="popLayout">
-        <motion.div
-          layout
-          className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3"
-        >
-          {filtered.map((p) => (
+        <motion.div layout className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {filtered.map((project) => (
             <motion.div
-              key={p.slug}
+              key={project.slug}
               layout
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 10 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
+              exit={{ opacity: 0, y: 14 }}
+              transition={{ duration: 0.24, ease: "easeOut" }}
             >
-              <ProjectCard project={p} />
+              <ProjectCard project={project} />
             </motion.div>
           ))}
         </motion.div>

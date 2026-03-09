@@ -27,15 +27,16 @@ export default async function AdminDashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold tracking-tight">Dashboard</h1>
+      <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Resumo</p>
+      <h1 className="mt-2 text-3xl font-semibold tracking-tight">Dashboard</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Métricas rápidas e atalhos para o CRUD.
       </p>
 
       <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <div className="rounded-[var(--radius)] border border-border/60 bg-card p-5">
+        <div className="rounded-2xl border border-border/70 bg-card p-6">
           <p className="text-sm text-muted-foreground">Projetos</p>
-          <p className="mt-2 text-3xl font-semibold tracking-tight">
+          <p className="mt-2 text-4xl font-semibold tracking-tight">
             {projectsCount}
           </p>
           <Button asChild variant="outline" className="mt-4 w-full">
@@ -45,9 +46,9 @@ export default async function AdminDashboardPage() {
             </Link>
           </Button>
         </div>
-        <div className="rounded-[var(--radius)] border border-border/60 bg-card p-5">
+        <div className="rounded-2xl border border-border/70 bg-card p-6">
           <p className="text-sm text-muted-foreground">Leads</p>
-          <p className="mt-2 text-3xl font-semibold tracking-tight">{leadsCount}</p>
+          <p className="mt-2 text-4xl font-semibold tracking-tight">{leadsCount}</p>
           <Button asChild variant="outline" className="mt-4 w-full">
             <Link href="/admin/leads">
               <Inbox className="mr-2 size-4" />

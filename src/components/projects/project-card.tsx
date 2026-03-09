@@ -6,24 +6,27 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Badge } from "@/components/ui/badge";
-import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import type { Project } from "@/types/project";
 
 export function ProjectCard({ project }: { project: Project }) {
+  const primaryTag = project.tags[0] ?? "Projeto";
+
   return (
-    <motion.div
-      whileHover={{ y: -4 }}
-      transition={{ duration: 0.22, ease: "easeOut" }}
-    >
-      <Card
+    <motion.div whileHover={{ y: -3 }} transition={{ duration: 0.18, ease: "easeOut" }}>
+      <Link
+        href={`/projects/${project.slug}`}
         className={cn(
-          "group relative overflow-hidden",
-          "border-border/60 bg-gradient-to-b from-background to-background/60",
-          "shadow-[0_1px_0_0_rgba(0,0,0,0.04)] hover:shadow-[0_18px_60px_-28px_rgba(0,0,0,0.45)]",
+          "group block rounded-2xl border border-border/70 bg-card p-6",
+          "shadow-[0_16px_40px_-34px_rgba(0,0,0,0.35)] transition-colors hover:border-[hsl(var(--brand-to)/0.45)]",
         )}
+        aria-label={`Ver projeto: ${project.title}`}
       >
-        <div className="relative h-44 w-full overflow-hidden">
+        <p className="text-[11px] uppercase tracking-[0.18em] text-[hsl(var(--brand-to))]">
+          {primaryTag}
+        </p>
+
+        <div className="relative mt-4 h-40 w-full overflow-hidden rounded-xl border border-border/70">
           {project.coverImage ? (
             <Image
               src={project.coverImage}
@@ -33,40 +36,29 @@ export function ProjectCard({ project }: { project: Project }) {
               sizes="(max-width: 768px) 100vw, 33vw"
             />
           ) : (
-            <div className="h-full w-full bg-gradient-to-br from-[hsl(var(--brand-to)/0.22)] via-muted to-background" />
+            <div className="h-full w-full bg-[linear-gradient(135deg,hsl(var(--brand-to)/0.16),hsl(var(--background))_55%)]" />
           )}
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/70 to-transparent" />
         </div>
 
-        <div className="flex flex-col gap-3 p-5">
+        <div className="mt-4">
           <div className="flex items-start justify-between gap-3">
-            <div className="min-w-0">
-              <h3 className="truncate text-base font-semibold tracking-tight">
-                {project.title}
-              </h3>
-              <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                {project.shortDescription}
-              </p>
-            </div>
-            <ArrowUpRight className="mt-0.5 size-4 text-muted-foreground transition group-hover:text-foreground" />
+            <h3 className="line-clamp-2 text-3xl font-semibold tracking-tight text-foreground dark:text-white">
+              {project.title}
+            </h3>
+            <ArrowUpRight className="mt-1 size-4 text-muted-foreground transition group-hover:text-foreground group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {project.tags.slice(0, 3).map((t) => (
-              <Badge key={t} variant="muted">
-                {t}
+          <p className="mt-3 line-clamp-3 text-sm leading-7 text-muted-foreground">{project.shortDescription}</p>
+
+          <div className="mt-4 flex flex-wrap gap-2">
+            {project.tags.slice(0, 3).map((tag) => (
+              <Badge key={tag} variant="muted">
+                {tag}
               </Badge>
             ))}
           </div>
-
-          <Link
-            href={`/projects/${project.slug}`}
-            className="absolute inset-0"
-            aria-label={`Ver projeto: ${project.title}`}
-          />
         </div>
-      </Card>
+      </Link>
     </motion.div>
   );
 }
-

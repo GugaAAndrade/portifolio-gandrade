@@ -4,7 +4,6 @@ import { FolderKanban, Home, Inbox, LayoutDashboard, LogOut } from "lucide-react
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
-import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -29,13 +28,16 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <div className="min-h-dvh">
+    <div className="site-theme relative min-h-dvh overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10 soft-vignette" />
+      <div className="pointer-events-none absolute inset-0 -z-10 story-grid opacity-20" />
+
       <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 px-4 py-10 md:grid-cols-12">
         <aside className="md:col-span-3">
-          <div className="sticky top-20 rounded-[var(--radius)] border border-border/60 bg-card p-4">
-            <div className="flex items-center justify-between px-2 pb-2">
-              <p className="text-sm font-semibold tracking-tight">Admin</p>
-              <ThemeToggle />
+          <div className="sticky top-20 rounded-2xl border border-border/70 bg-card p-4 shadow-[0_24px_60px_-46px_rgba(0,0,0,0.75)]">
+            <div className="px-2 pb-3">
+              <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground">Painel</p>
+              <p className="mt-2 text-lg font-semibold tracking-tight">Admin</p>
             </div>
             <nav className="grid gap-1">
               {items.map((it) => {
@@ -46,10 +48,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
                     key={it.href}
                     href={it.href}
                     className={cn(
-                      "flex items-center gap-2 rounded-[calc(var(--radius)-8px)] px-3 py-2 text-sm font-medium transition",
+                      "flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 text-sm font-medium transition",
                       active
-                        ? "bg-secondary text-secondary-foreground"
-                        : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
+                        ? "border border-[hsl(var(--brand-to)/0.45)] bg-[hsl(var(--brand-to)/0.1)] text-foreground"
+                        : "border border-transparent text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                     )}
                   >
                     <Icon className="size-4" />

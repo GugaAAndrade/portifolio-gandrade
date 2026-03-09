@@ -34,13 +34,14 @@ export function LeadsAdmin() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold tracking-tight">Leads</h1>
+      <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Inbox</p>
+      <h1 className="mt-2 text-3xl font-semibold tracking-tight">Leads</h1>
       <p className="mt-2 text-sm text-muted-foreground">
         Mensagens do formulário de contato.
       </p>
 
-      <div className="mt-8 rounded-[var(--radius)] border border-border/60 bg-card">
-        <div className="flex items-center justify-between border-b border-border/50 p-4">
+      <div className="mt-8 rounded-2xl border border-border/70 bg-card">
+        <div className="flex items-center justify-between border-b border-border/60 p-4">
           <p className="text-sm font-medium">
             {leadsQuery.data?.length ?? 0} lead(s)
           </p>
@@ -49,7 +50,7 @@ export function LeadsAdmin() {
           ) : null}
         </div>
 
-        <div className="divide-y divide-border/50">
+        <div className="divide-y divide-border/60">
           {(leadsQuery.data ?? []).map((l) => (
             <div key={l.id} className="p-4">
               <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
@@ -71,7 +72,7 @@ export function LeadsAdmin() {
                 </Badge>
               </div>
 
-              <div className="mt-4 rounded-[calc(var(--radius)-6px)] border border-border/60 bg-background p-4">
+              <div className="mt-4 rounded-xl border border-border/70 bg-background p-4">
                 <p className="text-sm font-medium flex items-center gap-2">
                   <MessageSquareText className="size-4 text-muted-foreground" />
                   Mensagem
@@ -93,4 +94,3 @@ export function LeadsAdmin() {
     </div>
   );
 }
-

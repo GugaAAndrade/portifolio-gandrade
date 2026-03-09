@@ -1,13 +1,14 @@
 import { SiteFooter } from "@/components/site/footer";
 import { SiteHeader } from "@/components/site/header";
+import { ScrollProgress } from "@/components/site/scroll-progress";
 
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-dvh">
+    <div className="site-theme min-h-dvh">
+      <ScrollProgress />
       <SiteHeader />
       <main>{children}</main>
       <SiteFooter />
     </div>
   );
 }
-

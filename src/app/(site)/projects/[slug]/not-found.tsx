@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button";
 
 export default function ProjectNotFoundPage() {
   return (
-    <div className="relative">
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[320px] bg-[radial-gradient(circle_at_top,hsl(var(--brand-to)/0.2),transparent_60%)]" />
+    <div className="relative overflow-hidden pb-16">
+      <div className="pointer-events-none absolute inset-0 -z-10 soft-vignette" />
       <div className="mx-auto max-w-6xl px-4 py-14">
-        <div className="rounded-[var(--radius)] border border-border/60 bg-gradient-to-b from-muted/60 to-background p-6 shadow-[0_24px_80px_-54px_rgba(0,0,0,0.55)] md:p-8">
+        <div className="border border-border/70 bg-card p-6 md:p-8">
           <p className="text-xs font-medium uppercase tracking-[0.16em] text-muted-foreground">
             Projeto não encontrado
           </p>
@@ -31,4 +31,3 @@ export default function ProjectNotFoundPage() {
     </div>
   );
 }
-
