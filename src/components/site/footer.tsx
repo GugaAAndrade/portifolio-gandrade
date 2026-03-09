@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ArrowUpRight, Instagram, Mail, MessageCircle } from "lucide-react";
 
 export function SiteFooter() {
   return (
@@ -45,29 +46,50 @@ export function SiteFooter() {
 
           <div className="md:col-span-3 md:border-l md:border-border/70 md:pl-6">
             <p className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">Fale comigo</p>
-            <div className="mt-4 space-y-3 text-sm">
-              <a
-                href="mailto:dev.gustavo.contato@gmail.com"
-                className="block transition-colors hover:text-[hsl(var(--brand-to))]"
-              >
-                dev.gustavo.contato@gmail.com
-              </a>
-              <a
-                href="https://www.linkedin.com/in/guga-andrade/"
-                target="_blank"
-                rel="noreferrer"
-                className="block transition-colors hover:text-[hsl(var(--brand-to))]"
-              >
-                LinkedIn
-              </a>
-              <a
-                href="https://github.com/GugaAAndrade"
-                target="_blank"
-                rel="noreferrer"
-                className="block transition-colors hover:text-[hsl(var(--brand-to))]"
-              >
-                GitHub
-              </a>
+            <div className="mt-4 rounded-2xl border border-border/70 bg-[linear-gradient(135deg,hsl(var(--brand-to)/0.08),hsl(var(--card))_45%)] p-4">
+              <p className="text-sm font-medium tracking-tight">
+                Resposta rápida para orçamento e escopo
+              </p>
+              <p className="mt-1 text-xs text-muted-foreground">
+                Atendimento em horário comercial
+              </p>
+
+              <div className="mt-4 space-y-2 text-sm">
+                <a
+                  href="https://wa.me/5579999191125"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center justify-between rounded-xl border border-border/70 bg-card px-3 py-2 transition-all hover:-translate-y-0.5 hover:border-[hsl(var(--brand-to)/0.35)]"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <MessageCircle className="size-4 text-[hsl(var(--brand-to))]" />
+                    WhatsApp
+                  </span>
+                  <ArrowUpRight className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+                <a
+                  href="mailto:dev.gustavo.contato@gmail.com"
+                  className="group flex items-center justify-between rounded-xl border border-border/70 bg-card px-3 py-2 transition-all hover:-translate-y-0.5 hover:border-[hsl(var(--brand-to)/0.35)]"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Mail className="size-4 text-[hsl(var(--brand-to))]" />
+                    E-mail
+                  </span>
+                  <ArrowUpRight className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+                <a
+                  href="https://instagram.com/guga_andrade__"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="group flex items-center justify-between rounded-xl border border-border/70 bg-card px-3 py-2 transition-all hover:-translate-y-0.5 hover:border-[hsl(var(--brand-to)/0.35)]"
+                >
+                  <span className="inline-flex items-center gap-2">
+                    <Instagram className="size-4 text-[hsl(var(--brand-to))]" />
+                    Instagram
+                  </span>
+                  <ArrowUpRight className="size-4 text-muted-foreground transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                </a>
+              </div>
             </div>
           </div>
         </div>
