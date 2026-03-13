@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import { FinalCta } from "@/components/site/final-cta";
+import { Reveal, Stagger, StaggerItem } from "@/components/site/reveal";
+import { SectionHeading } from "@/components/site/section-heading";
 import { ProjectsExplorer } from "@/components/projects/projects-explorer";
-import { Reveal } from "@/components/site/reveal";
-import { Stagger, StaggerItem } from "@/components/site/reveal";
-import { Button } from "@/components/ui/button";
 import { getProjects } from "@/lib/db/projects";
 
 export const dynamic = "force-dynamic";
@@ -20,65 +20,62 @@ export default async function ProjectsPage() {
   const segmentsCount = new Set(projects.flatMap((project) => project.tags)).size;
 
   return (
-    <div className="relative overflow-hidden pb-16">
+    <div className="relative overflow-hidden pb-16 pt-[84px]">
       <div className="pointer-events-none absolute inset-0 -z-10 soft-vignette" />
       <div className="pointer-events-none absolute inset-0 -z-10 story-grid opacity-20" />
 
-      <Reveal className="mx-auto max-w-6xl px-4 pt-12" y={16}>
-        <section className="p-1 md:p-2">
-          <p className="text-[11px] uppercase tracking-[0.24em] text-muted-foreground">Projetos</p>
-          <h1 className="mt-4 max-w-4xl text-balance text-4xl font-semibold leading-[1.04] tracking-tight text-foreground dark:text-white md:text-6xl">
-            Portfólio com foco em <span className="text-[hsl(var(--brand-to))]">solução real</span>, clareza e resultado.
-          </h1>
-          <p className="mt-4 max-w-3xl text-sm leading-7 text-muted-foreground md:text-base">
-            Cada entrega mostra como estratégia, design e desenvolvimento se conectam para resolver problemas de negócio.
-          </p>
-        </section>
+      <section className="relative overflow-hidden border-b border-border/50">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-64 bg-[radial-gradient(80%_100%_at_50%_0%,hsl(var(--brand-to)/0.18),transparent_60%)]" />
+
+        <Reveal className="mx-auto max-w-6xl px-4 pb-14 pt-14 md:pb-18 md:pt-18" y={18}>
+          <SectionHeading
+            eyebrow="Projetos"
+            align="left"
+            className="max-w-4xl"
+            title={
+              <>
+                Portfólio com foco em <span className="text-[hsl(var(--brand-to))]">solução real</span>, percepção e resultado.
+              </>
+            }
+            description="Cada entrega mostra como estratégia, design e desenvolvimento se conectam para construir ativos digitais mais fortes."
+          />
+
+          <Stagger className="mt-10 grid gap-4 md:grid-cols-3">
+            {[
+              { label: "Projetos publicados", value: projects.length },
+              { label: "Stacks utilizadas", value: stacksCount },
+              { label: "Tipos de solução", value: segmentsCount },
+            ].map((item) => (
+              <StaggerItem key={item.label}>
+                <article className="surface-panel flex min-h-[148px] flex-col justify-center rounded-[1.7rem] p-6 transition-all duration-300 hover:-translate-y-1">
+                  <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">{item.label}</p>
+                  <p className="mt-2 text-4xl font-semibold tracking-tight text-white">{item.value}</p>
+                </article>
+              </StaggerItem>
+            ))}
+          </Stagger>
+        </Reveal>
+      </section>
+
+      <Reveal className="mx-auto mt-8 max-w-6xl px-4" y={16}>
+        <ProjectsExplorer projects={projects} />
       </Reveal>
 
-      <Reveal className="mx-auto mt-8 max-w-6xl px-4" y={14}>
-        <Stagger className="grid gap-4 md:grid-cols-3">
-          {[
-            { label: "Projetos publicados", value: projects.length },
-            { label: "Stacks utilizadas", value: stacksCount },
-            { label: "Tipos de solução", value: segmentsCount },
-          ].map((item) => (
-            <StaggerItem key={item.label}>
-              <article className="rounded-2xl border border-border/70 bg-card p-6 transition-transform duration-300 hover:-translate-y-1">
-                <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">{item.label}</p>
-                <p className="mt-2 text-4xl font-semibold tracking-tight text-foreground dark:text-white">
-                  {item.value}
-                </p>
-              </article>
-            </StaggerItem>
-          ))}
-        </Stagger>
-      </Reveal>
-
-      <Reveal className="mx-auto mt-4 max-w-6xl px-4" y={14}>
-        <section className="p-1 md:p-2">
-          <ProjectsExplorer projects={projects} />
-        </section>
-      </Reveal>
-
-      <Reveal className="mx-auto max-w-6xl px-4 py-14" y={14}>
-        <section className="rounded-2xl border border-border/70 bg-card p-6 text-center md:p-8">
-          <p className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground">Próximo passo</p>
-          <h2 className="mt-3 text-balance text-3xl font-semibold tracking-tight text-foreground dark:text-white md:text-5xl">
-            Quer aplicar esse <span className="text-[hsl(var(--brand-to))]">padrão</span> no seu projeto?
-          </h2>
-          <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">
-            Receba um direcionamento claro de escopo, prioridade e execução para seu cenário atual.
-          </p>
-          <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
-            <Button asChild variant="premium" size="lg" className="min-h-11 px-8">
-              <Link href="/contact">Solicitar proposta</Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="min-h-11 px-8">
-              <Link href="/">Voltar para home</Link>
-            </Button>
-          </div>
-        </section>
+      <Reveal className="mx-auto max-w-6xl px-4 py-16 md:py-20" y={18}>
+        <FinalCta
+          eyebrow="Próximo passo"
+          title={
+            <>
+              Quer aplicar esse padrão no seu <span className="text-white/90">próximo projeto</span>?
+            </>
+          }
+          description="Receba um direcionamento claro de escopo, prioridade e execução para transformar a sua presença digital em um ativo comercial melhor."
+          primaryHref="/contact"
+          primaryLabel="Solicitar proposta"
+          secondaryHref="/"
+          secondaryLabel="Voltar para home"
+          proofs={["Clareza de escopo", "Direção técnica", "Entrega premium"]}
+        />
       </Reveal>
     </div>
   );

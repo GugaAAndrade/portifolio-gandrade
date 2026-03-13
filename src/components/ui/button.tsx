@@ -21,12 +21,12 @@ const buttonVariants = cva(
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         outline:
-          "border border-border bg-background text-foreground dark:text-white hover:bg-accent hover:text-accent-foreground",
+          "border border-border bg-background text-foreground dark:text-white hover:-translate-y-0.5 hover:bg-accent hover:text-accent-foreground",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         destructive:
           "bg-destructive text-destructive-foreground shadow-sm hover:opacity-90",
         premium:
-          "text-primary-foreground dark:text-white shadow-[0_14px_34px_-18px_hsl(var(--brand-to)/0.9)] bg-[linear-gradient(90deg,hsl(var(--brand-from)),hsl(var(--brand-to)))] hover:opacity-90 active:opacity-85",
+          "text-primary-foreground dark:text-white bg-[linear-gradient(90deg,hsl(var(--brand-from)),hsl(var(--brand-to)))] shadow-[0_18px_44px_-22px_hsl(var(--brand-to)/0.88)] hover:-translate-y-0.5 hover:opacity-95 active:translate-y-0 active:opacity-85",
       },
       size: {
         default: "h-10 px-4 py-2",

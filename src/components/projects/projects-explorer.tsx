@@ -60,7 +60,7 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
 
   return (
     <div>
-      <div className="rounded-2xl border border-border/70 bg-card p-5 md:p-6">
+      <div className="surface-panel rounded-[1.9rem] p-5 md:p-6">
         <div className="grid gap-4 lg:grid-cols-[minmax(0,360px)_1fr] lg:items-center">
           <div className="relative">
             <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -68,7 +68,7 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
               value={query}
               onChange={(event) => setQuery(event.target.value)}
               placeholder="Buscar por nome, tecnologia ou tag"
-              className="h-11 bg-background pl-9"
+              className="h-12 rounded-full border-border/60 bg-background/40 pl-9"
             />
           </div>
 
@@ -76,7 +76,7 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
             <Button
               type="button"
               size="sm"
-              className="min-h-10 shrink-0"
+              className="min-h-10 shrink-0 rounded-full px-4"
               variant={activeTag ? "outline" : "secondary"}
               onClick={() => setActiveTag(null)}
             >
@@ -95,8 +95,8 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
                   onClick={() => setActiveTag(active ? null : tag.key)}
                   className={`shrink-0 rounded-full border px-3 py-1.5 text-xs transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
                     active
-                      ? "border-[hsl(var(--brand-to)/0.7)] bg-[hsl(var(--brand-to)/0.15)] text-[hsl(var(--brand-to))]"
-                      : "border-border/70 bg-card text-muted-foreground hover:text-foreground"
+                      ? "border-[hsl(var(--brand-to)/0.42)] bg-[hsl(var(--brand-to)/0.08)] text-white"
+                      : "border-border/60 bg-background/25 text-muted-foreground hover:border-border/80 hover:text-white"
                   }`}
                 >
                   {tag.label}
@@ -131,11 +131,12 @@ export function ProjectsExplorer({ projects }: { projects: Project[] }) {
       </div>
 
       <AnimatePresence mode="popLayout">
-        <motion.div layout className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <motion.div layout className="mt-5 grid auto-rows-fr grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((project) => (
             <motion.div
               key={project.slug}
               layout
+              className="h-full"
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 14 }}

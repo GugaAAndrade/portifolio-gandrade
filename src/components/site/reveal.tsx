@@ -3,6 +3,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 
+import { sectionReveal, staggerContainer, staggerItem } from "@/components/site/motion";
 import { cn } from "@/lib/utils";
 
 type RevealProps = React.PropsWithChildren<{
@@ -15,10 +16,16 @@ export function Reveal({ children, className, delay = 0, y = 24 }: RevealProps) 
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial="hidden"
+      whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.7, ease: "easeOut", delay }}
+      variants={{
+        hidden: { ...sectionReveal.hidden, y },
+        show: {
+          ...sectionReveal.show,
+          transition: { ...sectionReveal.show.transition, delay },
+        },
+      }}
     >
       {children}
     </motion.div>
@@ -34,10 +41,8 @@ export function Stagger({ children, className, delay = 0 }: StaggerProps) {
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
-      variants={{
-        hidden: {},
-        show: { transition: { staggerChildren: 0.08, delayChildren: delay } },
-      }}
+      variants={staggerContainer}
+      custom={delay}
     >
       {children}
     </motion.div>
@@ -51,10 +56,7 @@ export function StaggerItem({
   return (
     <motion.div
       className={className}
-      variants={{
-        hidden: { opacity: 0, y: 18 },
-        show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
-      }}
+      variants={staggerItem}
     >
       {children}
     </motion.div>
