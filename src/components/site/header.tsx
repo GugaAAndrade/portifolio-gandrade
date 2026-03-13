@@ -90,19 +90,17 @@ export function SiteHeader() {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative rounded-full px-4 py-2 text-sm font-medium tracking-tight transition-colors",
+                    "group relative rounded-full px-4 py-2 text-sm font-medium tracking-tight transition-colors",
                     active ? "text-white" : "text-slate-300 hover:text-white",
                   )}
                 >
+                  {!active ? (
+                    <span className="pointer-events-none absolute inset-0 rounded-full bg-white/[0.04] opacity-0 transition-opacity duration-200 group-hover:opacity-100" />
+                  ) : null}
                   {active ? (
                     <motion.span
                       layoutId="site-nav-pill"
-                      className={cn(
-                        "absolute inset-0 rounded-full",
-                        scrolled
-                          ? "border border-[hsl(var(--brand-to)/0.35)] bg-[linear-gradient(180deg,hsl(var(--brand-to)/0.16),hsl(var(--background)/0.78))] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]"
-                          : "bg-[radial-gradient(70%_100%_at_50%_100%,hsl(var(--brand-to)/0.22),transparent_70%)]",
-                      )}
+                      className="pointer-events-none absolute inset-0 rounded-full border border-[hsl(var(--brand-to)/0.28)] bg-[linear-gradient(180deg,rgba(9,18,34,0.96),rgba(7,12,24,0.92))] shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"
                       transition={{ type: "spring", stiffness: 320, damping: 30 }}
                     />
                   ) : null}
