@@ -39,10 +39,24 @@ export function SiteHeader() {
       transition={{ duration: motionTiming.base, ease: motionEase }}
       className="fixed inset-x-0 top-0 z-50"
     >
-      <div className={cn("relative transition-[padding] duration-500", scrolled ? "px-4 pt-3" : "px-0 pt-0")}>
-        {!scrolled ? (
-          <span className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-px bg-white/10" />
-        ) : null}
+      <motion.div
+        aria-hidden="true"
+        animate={{ opacity: scrolled ? 0 : 1 }}
+        transition={{ duration: 0.22, ease: motionEase }}
+        className="pointer-events-none absolute inset-x-0 top-0 h-[84px] bg-background/84 backdrop-blur-xl"
+      />
+      <motion.span
+        aria-hidden="true"
+        animate={{ opacity: scrolled ? 0 : 1 }}
+        transition={{ duration: 0.22, ease: motionEase }}
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-px bg-white/10"
+      />
+      <div
+        className={cn(
+          "relative transition-[padding] duration-500",
+          scrolled ? "px-4 pt-3" : "px-0 pt-0",
+        )}
+      >
         <motion.div
           animate={{
             maxWidth: scrolled ? 1120 : 2400,
@@ -52,10 +66,10 @@ export function SiteHeader() {
           }}
           transition={{ type: "spring", stiffness: 220, damping: 30, mass: 0.85 }}
           className={cn(
-            "relative grid w-full items-center border-border/60 backdrop-blur-xl",
+            "relative grid w-full items-center border-border/60",
             scrolled
               ? "mx-auto grid-cols-[1fr_auto] gap-3 border bg-background/72 px-4 shadow-[0_22px_58px_-42px_rgba(0,0,0,0.85)] backdrop-blur-2xl md:grid-cols-[auto_1fr_auto]"
-              : "mx-auto grid-cols-[1fr_auto] bg-background/84 px-8 md:grid-cols-[1fr_auto_1fr] md:px-10 shadow-none",
+              : "mx-auto grid-cols-[1fr_auto] bg-transparent px-8 md:grid-cols-[1fr_auto_1fr] md:px-10 shadow-none",
           )}
         >
           <Link
